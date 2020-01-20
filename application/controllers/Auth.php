@@ -1,0 +1,330 @@
+<?php
+    defined('BASEPATH') OR exit('No direct script access allowed');
+
+    class Auth extends CI_Controller {
+        public function __construct() {
+            parent::__construct();
+            $this->load->model('Agent_model');
+            $this->load->library('form_validation');
+        }
+
+        public function index() {
+            if ($this->session->userdata('username')) {
+                if ($this->session->userdata('role_id') < 3) {
+                    redirect('agent/');
+                } else {
+                    redirect('client/');
+                }
+            }
+
+            $this->form_validation->set_rules('username', 'username', 'required|trim');
+            $this->form_validation->set_rules('password', 'password', 'required|trim');
+
+            if ($this->form_validation->run() == false) {
+                $this->load->view('templates/auth_header');
+                $this->load->view('auth/login');
+                $this->load->view('templates/auth_footer');
+            } else {
+                $this->login();
+            }
+        }
+
+        public function login() {
+            $username = $this->input->post('username');
+            $password = $this->input->post('password');
+
+            $agent = $this->Agent_model->getAgentByUsername($username);
+
+            if ($agent) {
+                if ($agent['is_active'] == 1) {
+                    if (password_verify($password, $agent['password'])) {
+                        $data = [
+                            'id' => $agent['id'],
+                            'name' => $agent['name'],
+                            'address' => $agent['address'],
+                            'city' => $agent['city'],
+                            'phone' => $agent['phone'],
+                            'email' => $agent['email'],
+                            'username' => $agent['username'],
+                            'image' => $agent['image'],
+                            'role_id' => $agent['role_id']
+                        ];
+                        $this->session->set_userdata($data);
+                        redirect('agent/');
+                    } else {
+                        $this->session->set_flashdata('flash', 'Wrong password!');
+                        redirect('auth/');
+                    }
+                } else {
+                    $this->session->set_flashdata('flash', 'This account is not activated!');
+                    redirect('auth/');
+                }
+            } else {
+                $contact = $this->Agent_model->getContactByUsername($username);
+
+                if ($contact) {
+                    if ($contact['is_active'] == 1) {
+                        if (password_verify($password, $contact['password'])) {
+                            $data = [
+                                'id' => $contact['id'],
+                                'name' => $contact['name'],
+                                'company_brand' => $contact['company_brand'],
+                                'branch_address' => $contact['branch_address'],
+                                'branch_city' => $contact['branch_city'],
+                                'phone' => $contact['phone'],
+                                'email' => $contact['email'],
+                                'username' => $contact['username'],
+                                'note' => $contact['note'],
+                                'image' => $contact['image'],
+                                'role_id' => $contact['role_id']
+                            ];
+                            $this->session->set_userdata($data);
+                            redirect('client/');
+                        } else {
+                            $this->session->set_flashdata('flash', 'Wrong password!');
+                            redirect('auth/');
+                        }
+                    } else {
+                        $this->session->set_flashdata('flash', 'This account is not activated!');
+                        redirect('auth/');
+                    }
+                } else {
+                    $this->session->set_flashdata('flash', 'This email is not registered!');
+                    redirect('auth/');
+                }
+            }
+        }
+
+        public function verify() {
+            $username = $this->input->get('username');
+            $token = $this->input->get('token');
+
+            $agent = $this->Agent_model->getAgentByUsername($username);
+
+            if ($agent) {
+                $user_token = $this->db->get_where('user_token', ['token' => $token])->row_array();
+
+                if ($user_token) {
+                    $this->Agent_model->verifyAgentAccount($username);
+                    $this->session->set_flashdata('flash-success', 'Your account is activated successfully!<br>Please login.');
+                    redirect('auth/');
+                } else {
+                    $this->session->set_flashdata('flash-error', 'Account activation failed!<br>Wrong token.');
+                    redirect('auth/');
+                }
+            } elseif (!$agent) {
+                $contact = $this->Agent_model->getContactByUsername($username);
+
+                if ($contact) {
+                    $user_token = $this->db->get_where('user_token', ['token' => $token])->row_array();
+
+                    if ($user_token) {
+                        $this->Agent_model->verifyContactAccount($username);
+                        $this->session->set_flashdata('flash-success', 'Your account is activated successfully!<br>Please login.');
+                        redirect('auth/');
+                    } else {
+                        $this->session->set_flashdata('flash-error', 'Account activation failed!<br>Wrong token.');
+                        redirect('auth/');
+                    }
+                } else {
+                    $this->session->set_flashdata('flash-error', 'Account activation failed!<br>Wrong username or email.');
+                    redirect('auth/');
+                }
+            } else {
+                $this->session->set_flashdata('flash-error', 'Account activation failed!<br>Wrong username or email.');
+                redirect('auth/');
+            }
+        }
+
+        public function forgotpassword() {
+            $this->form_validation->set_rules('email', 'email', 'required|trim|valid_email');
+
+            if ($this->form_validation->run() == false) {
+                $this->load->view('templates/auth_header');
+                $this->load->view('auth/forgotpassword');
+                $this->load->view('templates/auth_footer');
+            } else {
+                $this->_forgotPassword();
+            }
+        }
+
+        public function _forgotPassword() {
+            $email = $this->input->post('email');
+            $agent = $this->Agent_model->getAgentByEmail($email);
+
+            if ($agent) {
+                $token = base64_encode(openssl_random_pseudo_bytes(32));
+                $user_token = [
+                    'email' => $email,
+                    'token' => $token
+                ];
+                $this->db->insert('user_token', $user_token);
+                $this->sendEmailForgotPassword($token);
+                $this->session->set_flashdata('flash-success', 'Please check your email to reset your password.');
+                redirect('auth/forgotpassword/');
+            } elseif ($agent['is_active'] === 0) {
+                $this->session->set_flashdata('flash-error', 'This account is not activated!');
+                redirect('auth/forgotpassword/');
+            } elseif (!$agent) {
+                $contact = $this->db->get_where('contacts', ['email' => $email])->row_array();
+
+                if ($contact) {
+                    $token = base64_encode(openssl_random_pseudo_bytes(32));
+                    $user_token = [
+                        'email' => $email,
+                        'token' => $token
+                    ];
+                    $this->db->insert('user_token', $user_token);
+                    $this->sendEmailForgotPassword($token);
+                    $this->session->set_flashdata('flash-success', 'Please check your email to reset your password.');
+                    redirect('auth/forgotpassword/');
+                } else {
+                    $this->session->set_flashdata('flash-error', 'This email is not registered!');
+                    redirect('auth/forgotpassword/');
+                }
+            } else {
+                $this->session->set_flashdata('flash-error', 'This email is not registered!');
+                redirect('auth/forgotpassword/');
+            }
+        }
+
+        private function sendEmailForgotPassword($token) {
+            $config = [
+                'protocol' => 'smtp',
+                'smtp_host' => 'ssl://smtp.googlemail.com',
+                'smtp_user' => 'd.herdiawan.s@gmail.com',
+                'smtp_pass' => 'h3r@w4t!',
+                'smtp_port' => 465,
+                'mailtype' => 'html',
+                'charset' => 'utf-8',
+                'newline' => "\r\n"
+            ];
+
+            $this->email->initialize($config);
+            $this->email->from('d.herdiawan.s@gmail.com', 'PT. Ava Revota');
+            $this->email->to($this->input->post('email'));
+            $this->email->subject('Ganti Password');
+            $this->email->message('
+                Silakan klik tautan di bawah ini untuk mengganti password anda.<br>
+                <a href="'. base_url() . 'auth/resetpassword?email=' . $this->input->post('email') . '&token=' . urlencode($token) .'">
+                Ganti password
+                </a>
+            ');
+
+            if ($this->email->send()) {
+                return true;
+            } else {
+                echo $this->email->print_debugger();
+                die;
+            }
+        }
+
+        public function resetpassword() {
+            $email = $this->input->get('email');
+            $token = $this->input->get('token');
+
+            $agent = $this->Agent_model->getAgentByEmail($email);
+
+            if ($agent) {
+                $user_token = $this->db->get_where('user_token', ['token' => $token])->row_array();
+
+                if ($user_token) {
+                    $this->session->set_userdata('reset_email', $email);
+                    $this->changepassword();
+                } else {
+                    $this->session->set_flashdata('flash-error', 'Reset password failed!<br>Wrong token.');
+                    redirect('auth/');
+                }
+            } elseif (!$agent) {
+                $contact = $this->Agent_model->getContactByEmail($email);
+
+                if ($contact) {
+                    $user_token = $this->db->get_where('user_token', ['token' => $token])->row_array();
+
+                    if ($user_token) {
+                        $this->session->set_userdata('reset_email', $email);
+                        $this->changepassword();
+                    } else {
+                        $this->session->set_flashdata('flash-error', 'Reset password failed!<br>Wrong token.');
+                        redirect('auth/');
+                    }
+                } else {
+                    $this->session->set_flashdata('flash-error', 'Reset password failed!<br>Wrong email.');
+                    redirect('auth/');
+                }
+            } else {
+                $this->session->set_flashdata('flash-error', 'Reset password failed!<br>Wrong email.');
+                redirect('auth/');
+            }
+        }
+
+        public function changepassword() {
+            if (!$this->session->userdata('reset_email')) {
+                redirect('auth/');
+            }
+
+            $this->form_validation->set_rules('password1', 'password1', 'required|trim|min_length[5]|matches[password2]');
+            $this->form_validation->set_rules('password2', 'password2', 'required|trim|min_length[5]|matches[password1]');
+
+            if ($this->form_validation->run() == false) {
+                $this->load->view('templates/auth_header');
+                $this->load->view('auth/changepassword');
+                $this->load->view('templates/auth_footer');
+            } else {
+                $this->_changePassword();
+                $this->session->set_flashdata('flash-success', 'Password changed successfully!<br>Please login.');
+                redirect('auth/');
+            }
+        }
+
+        public function _changePassword() {
+            $password = password_hash($this->input->post('password1'), PASSWORD_DEFAULT);
+            $email = $this->session->userdata('reset_email');
+
+            $agent = $this->Agent_model->getAgentByEmail($email);
+
+            if ($agent) {
+                $this->Agent_model->changeAgentPasswordByEmail($password, $email);
+            } elseif (!$agent) {
+                $contact = $this->Agent_model->getContactByEmail($email);
+
+                if ($contact) {
+                    $this->Agent_model->changeContactPasswordByEmail($password, $email);
+                }
+            }
+
+            $this->session->unset_userdata('reset_email');
+        }
+
+        public function blocked() {
+            $this->load->view('auth/blocked');
+        }
+
+        public function logout() {
+            if ($this->session->userdata('role_id') < 3) {
+                $this->session->unset_userdata('id');
+                $this->session->unset_userdata('name');
+                $this->session->unset_userdata('address');
+                $this->session->unset_userdata('city');
+                $this->session->unset_userdata('phone');
+                $this->session->unset_userdata('email');
+                $this->session->unset_userdata('username');
+                $this->session->unset_userdata('image');
+                $this->session->unset_userdata('role_id');
+            } else {
+                $this->session->unset_userdata('id');
+                $this->session->unset_userdata('name');
+                $this->session->unset_userdata('company_brand');
+                $this->session->unset_userdata('branch_address');
+                $this->session->unset_userdata('branch_city');
+                $this->session->unset_userdata('phone');
+                $this->session->unset_userdata('email');
+                $this->session->unset_userdata('username');
+                $this->session->unset_userdata('note');
+                $this->session->unset_userdata('image');
+                $this->session->unset_userdata('role_id');
+            }
+            redirect('auth/');
+        }
+    }
+?>
