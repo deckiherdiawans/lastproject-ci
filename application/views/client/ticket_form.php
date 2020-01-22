@@ -8,7 +8,7 @@
         <div class="card-body">
             <form method="post" action="<?= base_url('client/ticket_form/'); ?>">
                 <div>
-                    <h5 class="text-center">New Ticket</h5>
+                    <h5 class="text-center">New Support Ticket</h5>
                 </div>
                 <hr>
                 <input type="hidden" class="form-control" id="created_by" name="created_by" value="<?= $this->session->userdata('name'); ?>">
