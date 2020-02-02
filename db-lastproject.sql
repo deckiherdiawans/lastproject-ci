@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 20, 2020 at 05:28 PM
+-- Generation Time: Feb 02, 2020 at 05:41 PM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -46,7 +46,7 @@ CREATE TABLE `agents` (
 
 INSERT INTO `agents` (`id`, `name`, `address`, `city`, `phone`, `email`, `username`, `password`, `image`, `role_id`, `is_active`) VALUES
 (1, 'Decki Herdiawan Soepandi', 'Jl. Citra Asri Blok B No. 11 Padalarang', 'Bandung Barat', '+6282216668131', 'herdiawand@yahoo.co.id', 'deckiherdiawans', '$2y$10$m/9ABaBp5.TVLTUIhbhsM.82TE4ii3Sj7r3fFHKv8xkmpna6neHPe', 'decki.png', 1, 1),
-(2, 'Tri Untung Sutriyanto', 'Jl. Dago No. 55', 'Bandung', '+6281330003063', 'triuntungsutriyanto@yahoo.com', 'sutriyanto', '$2y$10$GwEt3G7oKbhG3rbj33jQLuTeGnaFpJOgsqTikqftXcfNOjusDobca', 'tri.jpg', 2, 1),
+(2, 'Tri Untung Sutriyanto', 'Jl. Dago No. 55', 'Bandung', '+6281330003063', 'triuntungsutriyanto@yahoo.com', 'sutriyanto', '$2y$10$eGlMF0V8GtMkjwj2Q76AQeZkVXYP8L82lO6Lal7v8P8OpIDc556vi', 'tri.jpg', 2, 1),
 (9, 'Edu Ramdhana Putra', 'Jl. Antapani No. 55', 'Bandung', '+6281321600700', 'eduramdhanaputra@yahoo.com', 'ramdhana', '$2y$10$9TTHWeHceB2mEfnAwiOS3ewAxd9lZeoyvPnACHogw7NapI0QQvHyW', 'edu.jpg', 2, 1);
 
 -- --------------------------------------------------------
@@ -125,7 +125,6 @@ INSERT INTO `companies` (`id`, `brand`, `headquarter_address`, `headquarter_city
 (4, 'Bloods', 'Jl. Gunung Batu', 'Bandung', 'default_building2.jpg'),
 (5, 'Chambers', 'Jl. Boulevard No. 3, Ruko Ruby 1, Panakkukang Mas', 'Makassar', 'default_building2.jpg'),
 (6, 'Erigo', 'BSD City', 'Tangerang', 'default_building2.jpg'),
-(7, 'Heuvel Tribe', 'Perumahan Candi Gebang Blok BB6', 'Yogyakarta', 'default_building2.jpg'),
 (8, 'Inspired27', 'Jl. Kendalsari 1 No. II-A', 'Malang', 'default_building2.jpg'),
 (9, 'Issue', 'Jl. Karunrung No. 26', 'Makassar', 'default_building2.jpg'),
 (10, 'Magnum Reload', 'Jl. Gamelan No. 21', 'Bandung', 'default_building2.jpg'),
@@ -199,7 +198,7 @@ INSERT INTO `contacts` (`id`, `name`, `company_id`, `company_brand`, `branch_add
 (22, 'Erick', 15, 'Ouval Research', 'Jl. Buah Batu No. 64', 'Bandung', '+628886232835', 'd.herdiawan.s@gmail.com', 'erick_ouval', '$2y$10$o4TmnGOD7iAK3JL1kqlRPOyLKwE5GPToBd70mn2yzhNNDZwxqWI9W', 'Crew cabang toko utama', 'default_user2.png', 3, 1),
 (23, 'Erman', 12, 'Monochrome', 'Jl. Raya Merdeka No. 163', 'Tangerang', '+62812380798734', 'd.herdiawan.s@gmail.com', 'erman_monochrome', '$2y$10$qF9Cx51GPFCXGqrPc9gR0uBxqAcSsB5bquTacBK/dSBFDJshm/ZQG', 'Crew distribusi', 'default_user2.png', 3, 1),
 (24, 'Ety', 10, 'Magnum Reload', 'Jl. Gamelan No. 21', 'Bandung', '+6282214221880', 'd.herdiawan.s@gmail.com', 'ety_magnum', '$2y$10$qNq1q.9jrTk8yvcAfaAVouAh.S6O7ILLprYU1UAbq4VJ2eIm7a1XW', 'Crew distribusi', 'default_user2.png', 3, 1),
-(25, 'Fafa', 18, 'Realizm87', 'Jl. Soekarno-Hatta No. A6', 'Malang', '+6285730658573', 'd.herdiawan.s@gmail.com', 'fafa_realizm87', '$2y$10$ZtQ0acKu244NWk16zqGkyeDK8QWW1y4Mk1d0COdSZWIID2RuMH4MK', 'Crew distribusi & expo', 'default_user2.png', 3, 1),
+(25, 'Fafa', 18, 'Realizm87', 'Jl. Soekarno-Hatta No. A6', 'Malang', '+6285730658573', 'd.herdiawan.s@gmail.com', 'fafa_realizm87', '$2y$10$k5s.wyLsKg99Et.qLScFt.WEMy/eJUyjxl6jacpf8joy9691sIS1W', 'Crew distribusi & expo', 'default_user2.png', 3, 1),
 (26, 'Febby', 21, 'Skaters', 'Jl. Sukagalih, Sukajadi', 'Bandung', '+62859130902848', 'd.herdiawan.s@gmail.com', 'febby_skaters', '$2y$10$nkzRHn7vcobajvVM4s40vuPJx3z2es9AsBTtsTdvMrF15DxYgTjS2', 'Crew distribusi', 'default_user2.png', 3, 1),
 (27, 'Fitri', 21, 'Skaters', 'Jl. Sukagalih, Sukajadi', 'Bandung', '+6281221409223', 'd.herdiawan.s@gmail.com', 'fitri_skaters', '$2y$10$ide1.SGw8dZyywT78YLYse6lk/EElN0cygwCcC2WHpdXklx40j3Fy', 'Crew cabang toko utama', 'default_user2.png', 3, 1),
 (28, 'Frisda', 17, 'Queen Beer', 'Perumahan Grand Galaxy City, Jl. Taman Aster Blok BV No. 10', 'Bekasi', '+6282216040308', 'd.herdiawan.s@gmail.com', 'frisda_queen', '$2y$10$9iRiZynclHO2Y3hqgR8rbec.FE3cuwUTlVHCeYZovnGo3.X7AUeB6', 'Crew cabang toko utama', 'default_user2.png', 3, 1),
@@ -239,10 +238,10 @@ INSERT INTO `contacts` (`id`, `name`, `company_id`, `company_brand`, `branch_add
 (62, 'Vicky', 8, 'Inspired27', 'Jl. Kendalsari 1 No. II-A', 'Malang', '+628122773108', 'd.herdiawan.s@gmail.com', 'vicky_inspired27', '$2y$10$RU1oNWCH7ZqOEnlOzgTicuBtk6eJOxHaWxKK9LYx3dH8t4iJkOQmy', 'Crew distribusi', 'default_user2.png', 3, 1),
 (63, 'Wawan', 25, 'Suicide Anthem', 'Jl. Jendral Sudirman No. 27D', 'Purwakarta', '+6287805359214', 'd.herdiawan.s@gmail.com', 'wawan_suicide', '$2y$10$TV78jmgQhmhUbwy5UVwTz.FJMCSdUVUY9wb8ZKQzTGVd546kRE0oG', 'Crew cabang toko Purwakarta', 'default_user2.png', 3, 0),
 (64, 'Wika', 19, 'Rown Division', 'Jl. Adi Sucipto No. 1', 'Surakarta (Solo)', '+6288802788324', 'd.herdiawan.s@gmail.com', 'wika_rown', '$2y$10$ZNeU5ITgDmypTgL4Oh6hT.qzaH.5p/S.8M5ZozkUzkxzIMglES0o6', 'Crew distribusi', 'default_user2.png', 3, 0),
-(65, 'Wisya', 7, 'Heuvel Tribe', 'Perumahan Candi Gebang Blok BB6', 'Yogyakarta', '+628985035845', 'd.herdiawan.s@gmail.com', 'wisya_heuvel', '$2y$10$KHiXb6kHehHxibPKehj.dupXYUrevDXlRRKSO4G/BQZfPTxrnZo4G', 'Crew cabang toko utama', 'default_user2.png', 3, 0),
 (66, 'Yahya', 13, 'Nimco', 'Jl. Srijaya Negara', 'Palembang', '+6281575197287', 'd.herdiawan.s@gmail.com', 'yahya_nimco', '$2y$10$gR7xFZc53.J4/cIz1wQgCewTt1sXgkCgqmdnda/qZqjfbkyQIfda.', 'Crew cabang toko Palembang', 'default_user2.png', 3, 0),
 (67, 'Yuni', 21, 'Skaters', 'Jl. Sukagalih, Sukajadi', 'Bandung', '+6282129084941', 'd.herdiawan.s@gmail.com', 'yuni_skaters', '$2y$10$1B1WoY9N9pxUEPPHGMI1/ODmnZ5spn01uykwKB8Uy2.IMQCeGrzje', 'Crew distribusi', 'default_user2.png', 3, 0),
-(68, 'Tia', 2, '17 Seven', 'Jl. Taman Galaxy Raya No. 11 B', 'Bekasi', '+6283822772112', 'd.herdiawan.s@gmail.com', 'tia17seven', '$2y$10$NY4I7ze/XCpK1c.lC3Q/gOBJG2RWoN8.sZxh7whwu3b55Vg5G3oGC', 'Crew distribusi', 'default_user2.png', 3, 1);
+(68, 'Tia', 2, '17 Seven', 'Jl. Taman Galaxy Raya No. 11 B', 'Bekasi', '+6283822772112', 'd.herdiawan.s@gmail.com', 'tia17seven', '$2y$10$NY4I7ze/XCpK1c.lC3Q/gOBJG2RWoN8.sZxh7whwu3b55Vg5G3oGC', 'Crew distribusi', 'default_user2.png', 3, 1),
+(69, 'Budi', 2, '17 Seven', 'Jl. Taman Galaxy Raya No. 11 B', 'Bekasi', '+6289671306396', 'd.herdiawan.s@gmail.com', 'budi17seven', '$2y$10$TIB8vg4hCxQDDzMI.qowg.EK2uSN8tCH06zVWi7MTrJZpNtSF2kLa', 'Crew cabang toko utama', 'default_user2.png', 3, 0);
 
 -- --------------------------------------------------------
 
@@ -271,7 +270,9 @@ INSERT INTO `subjects` (`id`, `subject`) VALUES
 (9, 'Perbaikan nilai diskon'),
 (10, 'Perbaikan nilai konsinyasi'),
 (11, 'Perbaikan tata letak barcode / faktur'),
-(12, 'Sistem tidak dapat diakses');
+(12, 'Sistem tidak dapat diakses'),
+(13, 'Sistem muncul notifikasi error'),
+(14, 'Database suspect');
 
 -- --------------------------------------------------------
 
@@ -281,17 +282,18 @@ INSERT INTO `subjects` (`id`, `subject`) VALUES
 
 CREATE TABLE `tickets` (
   `id` int(11) NOT NULL,
-  `date_created` date NOT NULL,
+  `date_created` datetime NOT NULL,
+  `date_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_by` varchar(128) NOT NULL,
   `company_brand` varchar(128) NOT NULL,
   `contact_name` varchar(128) NOT NULL,
   `contact_image` varchar(128) NOT NULL,
   `type` varchar(128) NOT NULL,
   `module` varchar(128) NOT NULL,
+  `priority` varchar(128) NOT NULL,
   `subject` varchar(128) NOT NULL,
   `description` varchar(3520) NOT NULL,
-  `priority` varchar(128) DEFAULT NULL,
-  `agent_name` varchar(128) DEFAULT NULL,
+  `agent_name` varchar(128) NOT NULL,
   `start_time` datetime DEFAULT NULL,
   `finish_time` datetime DEFAULT NULL,
   `status` varchar(128) NOT NULL,
@@ -302,9 +304,23 @@ CREATE TABLE `tickets` (
 -- Dumping data for table `tickets`
 --
 
-INSERT INTO `tickets` (`id`, `date_created`, `created_by`, `company_brand`, `contact_name`, `contact_image`, `type`, `module`, `subject`, `description`, `priority`, `agent_name`, `start_time`, `finish_time`, `status`, `note`) VALUES
-(1, '2020-01-20', 'Aditya', 'Nimco', 'Aditya', 'default_user2.png', 'Remote', 'Distribution', 'Konfigurasi Printer', 'Hallo Revota.\r\nMohon bantuannya untuk konfigurasi printer barcode, dikarenakan printer-nya beli baru.\r\nScreenshot TeamViewer ada di lampiran ya.\r\nTerima kasih.', NULL, NULL, NULL, NULL, 'Open', NULL),
-(2, '2020-01-20', 'Febby', 'Skaters', 'Febby', 'default_user2.png', 'Remote', 'Shop', 'Sistem tidak dapat diakses', 'Hallo Revota.\r\nMohon dicek sistem Revota tidak bisa dibuka.\r\nTerima kasih.', NULL, NULL, NULL, NULL, 'Open', NULL);
+INSERT INTO `tickets` (`id`, `date_created`, `date_updated`, `created_by`, `company_brand`, `contact_name`, `contact_image`, `type`, `module`, `priority`, `subject`, `description`, `agent_name`, `start_time`, `finish_time`, `status`, `note`) VALUES
+(1, '2020-01-24 09:30:45', '2020-01-27 02:07:56', 'Juan', 'Tendencies', 'Juan', 'default_user2.png', 'Remote', 'Distribution', 'Medium', 'Pembatalan transaksi / rollback', '<p>Hallo</p><p>Revota, Transaksi starcros lampung minta tolong dibatalkan<br>id : 1512277821</p><p>pass : dekatama</p>', 'Edu Ramdhana Putra', '2020-01-27 00:10:00', '2020-01-27 09:07:00', 'Resolved', ''),
+(2, '2020-01-24 09:32:59', '2020-01-26 17:14:58', 'Ale', 'Bloods', 'Adi', 'default_user2.png', 'Remote', 'Shop', 'Low', 'Installasi', '<p>sore, mas mau install revota lagi, toko tangerang baru beres install ulang windows,<br>1 522 206 695<br>fh3t96/bloods</p><p>anydesk<br>bldstanggerang-pc@ad<br>bloods2002</p><p>terimakasih</p>', 'Decki Herdiawan Soepandi', '2020-01-26 11:09:00', '2020-01-26 16:31:00', 'Resolved', ''),
+(3, '2020-01-24 09:39:35', '2020-01-26 17:14:58', 'Gandjar', 'Maternal Disaster', 'Gandjar', 'default_user2.png', 'Remote', 'Shop', 'Medium', 'Sistem muncul notifikasi error', '<p>Selamat pagi,</p><p>mau nanya nih knp yah sering banget RUNTIME ERROR DI DIST TRANSACTION HISTORY ONLINE SALES UNTUK PROSES APPROVE & SHIPPED.<br>ID TeamViewer: 1 432 543 767<br>Password: 43445s</p><p>Terima kasih</p>', 'Decki Herdiawan Soepandi', '2020-01-26 22:07:00', '2020-01-26 23:41:00', 'Resolved', ''),
+(4, '2020-01-24 09:44:27', '2020-01-26 17:14:58', 'Gandjar', 'Maternal Disaster', 'Gandjar', 'default_user2.png', 'Remote', 'Distribution', 'Low', 'Installasi', '<p>Selamat pagi,</p><p>mau request instalasi revota. berikut id & password revota<br>ID: 1 432 444 123<br>Password: fd4sq4</p><p>Terima kasih</p>', 'Tri Untung Sutriyanto', '2020-01-26 22:10:00', '2020-01-26 23:39:00', 'Resolved', ''),
+(5, '2020-01-24 09:49:16', '2020-01-28 19:09:48', 'Gandjar', 'Maternal Disaster', 'Gandjar', 'default_user2.png', 'Remote', 'Distribution', 'Low', 'Installasi', '<p>Selamat sore, saya nia dari akunting house of smith mau minta tolong untuk instal software revota di pc saya. terimakasih :)</p><p>ID TeamViewer: 1 459 012 921<br>Password: fdfdwe</p><p><i><strong>Thanks and Regards</strong></i></p>', 'Edu Ramdhana Putra', '2020-01-29 00:00:00', '2020-01-29 02:08:00', 'Resolved', ''),
+(6, '2020-01-24 09:54:03', '2020-01-27 02:09:06', 'Gandjar', 'Maternal Disaster', 'Gandjar', 'default_user2.png', 'Remote', 'Distribution', 'Low', 'Pembatalan transaksi / rollback', '<p>sore, maaf mas mau minta cancel delivery ada double input</p><p>no invoice<br>0301WDL20A16031<br>0301WDL20A16049</p><p>terima kasih</p>', 'Tri Untung Sutriyanto', '2020-01-27 01:05:00', '2020-01-27 09:09:00', 'Resolved', ''),
+(7, '2020-01-24 09:56:06', '2020-01-28 10:58:44', 'Gandjar', 'Maternal Disaster', 'Gandjar', 'default_user2.png', 'Remote', 'Expo', 'Low', 'Pembuatan berkas PDT', '<p>Dear revota</p><p>Mau minta tolong PDT-kan all stock brand Mechajoy dan Papersmoot<br>ID TeamViewer: 1 458 430 120<br>Password: asu9s1</p>', 'Edu Ramdhana Putra', '2020-01-26 23:44:00', '2020-01-28 17:58:00', 'Resolved', ''),
+(8, '2020-01-24 10:01:18', '2020-01-28 11:00:16', 'Decki Herdiawan Soepandi', 'Smith', 'Resti', 'default_user2.png', 'Remote', 'Shop', 'Low', 'Installasi', '<p>Dear Revota Team, </p><p>Berikut saya sampaikan untuk permintaan instal revota di komputer dengan ID ini, dikarenakan kemarin ganti Harddisk. Adapun ID team viewer nya adalah : </p><p>ID : 1 510 392 510<br>Pass : 148nnm</p><p>Regards,<br>NAzar</p>', 'Tri Untung Sutriyanto', '2020-01-26 23:44:00', '2020-01-28 17:59:00', 'Resolved', ''),
+(9, '2020-01-24 10:05:17', '2020-01-28 11:01:06', 'Decki Herdiawan Soepandi', 'Chambers', 'Andry', 'default_user2.png', 'Remote', 'Shop', 'Low', 'Perbaikan nilai konsinyasi', '<p>selamat sore, berikut lampiran data brand yang salah konsinyasi dan discount di bulan desember  2019, mohon untuk di edit sesuai keterangan yang ada di kolom. terima kasih kami tunggu</p><p>Teamviewer :<br>ID : 808 490 654<br>Pass : n2jy68<br><br>Best regards,<br><strong>CV. CHAMBERS CELEBES</strong></p>', 'Tri Untung Sutriyanto', '2020-01-27 09:07:00', '2020-01-28 18:00:00', 'Resolved', ''),
+(10, '2020-01-25 09:59:48', '2020-01-28 11:02:28', 'Decki Herdiawan Soepandi', '308 Absolute Unscared', 'Linggar', 'default_user2.png', 'Remote', 'Shop', 'Low', 'Installasi', '<p>Hallo Revota.</p><p>Mohon bantuannya untuk install sistem toko di komputer saya.<br>ID TeamViewer: 1 432 546 542<br>Password: fdsrew</p>', 'Tri Untung Sutriyanto', '2020-01-27 09:10:00', '2020-01-28 18:02:00', 'Resolved', ''),
+(12, '2020-01-27 01:01:55', '2020-02-02 10:35:50', 'Fafa', 'Realizm87', 'Fafa', 'default_user2.png', 'Remote', 'Shop', 'Medium', 'Perbaikan nilai konsinyasi', '<p>Hallo Revota.</p><p>Mohon bantuannya untuk perbaikan nilai konsinyasi lagi, brand ROUGHNECK1991 per bulan Januari harusnya konsinyasi 30%.<br>ID TeamViewer: 1 444 543 342<br>Password: dfd2f5</p><p>Terima kasih.</p>', 'Decki Herdiawan Soepandi', '2020-02-02 17:35:00', '0000-00-00 00:00:00', 'In Progress', ''),
+(13, '2020-01-27 01:04:04', '2020-01-26 18:04:04', 'Fafa', 'Realizm87', 'Fafa', 'default_user2.png', 'On The Spot', 'Shop', 'Medium', 'Installasi', '<p>Hallo Revota.</p><p>Mohon bantuannya untuk install sistem Revota di komputer baru, Issue mau buka toko baru di Bandung.<br>ID TeamViewer 1: 1 446 432 641<br>Password: sf1g4g</p>', '---', NULL, NULL, 'Open', NULL),
+(14, '2020-01-27 01:10:55', '2020-01-28 19:11:19', 'Decki Herdiawan Soepandi', 'Smith', 'Baden', 'default_user2.png', 'Remote', 'Shop', 'Medium', 'Installasi', '<p>Hallo Mas Decki, mohon bantuannya untuk install ulang Revota di store Sultan, komputernya abis diinstall ulang.</p><p>ID TeamViewer: 1 546 345 345<br>Password: ljsfdk2</p><p>Terima kasih Mas Decki.</p>', 'Decki Herdiawan Soepandi', '2020-01-28 18:07:00', '2020-01-29 02:10:00', 'Resolved', ''),
+(15, '2020-01-27 01:13:00', '2020-02-01 14:19:57', 'Fafa', 'Realizm87', 'Fafa', 'default_user2.png', 'Remote', 'Online', 'Urgent', 'Database suspect', '<p>Hallo Revota.</p><p>Tolong dicek, ini sistem Revota ga bisa dibuka.<br>ID TeamViewer: 1 432 432 423<br>Password: fds542</p>', 'Edu Ramdhana Putra', '2020-01-27 09:11:00', '2020-01-28 18:03:00', 'Resolved', ''),
+(16, '2020-01-27 01:14:47', '2020-01-26 18:14:47', 'Fafa', 'Realizm87', 'Fafa', 'default_user2.png', 'Visit', 'Distribution', 'Medium', 'Installasi', '<p>Hallo Revota.</p><p>Mohon bantuannya untuk berkunjung ke lokasi, ada komputer yang harus diinstall ulang dan ada yang ingin dibicarakan juga.<br>Ditunggu konfirmasinya.</p><p>Terima kasih.</p>', '---', NULL, NULL, 'Open', NULL),
+(17, '2020-01-27 01:15:47', '2020-01-26 18:15:47', 'Fafa', 'Realizm87', 'Fafa', 'default_user2.png', 'Remote', 'Expo', 'Low', 'Pembuatan berkas PDT', '<p>Hallo.</p><p>Tolong buatkan file PDT ya.<br>ID TeamViewer: 1 434 668 293<br>Password: fjadtid</p>', '---', NULL, NULL, 'Open', NULL);
 
 -- --------------------------------------------------------
 
@@ -373,9 +389,9 @@ CREATE TABLE `user_token` (
 INSERT INTO `user_token` (`id`, `email`, `username`, `token`) VALUES
 (60, 'd.herdiawan.s@gmail.com', 'wawan_suicide', 'peZzkWVCJehsgFsV5v4RdDS7GIEmp5inpm16vRt/yNU='),
 (61, 'd.herdiawan.s@gmail.com', 'wika_rown', 'GJs7EEzmyoQbd98GnuZlyGhLVkK6bg1W0rU9nEI1D5Y='),
-(62, 'd.herdiawan.s@gmail.com', 'wisya_heuvel', 'gm8RJaI2GOWpa5o8z/ONL9U0ZMsLu70n7xbtu2FOX/8='),
 (63, 'd.herdiawan.s@gmail.com', 'yahya_nimco', 'I4uSVOIvYlSKOr6akmE2wDwgHf/eDo7kxZ88lQCFPag='),
-(64, 'd.herdiawan.s@gmail.com', 'yuni_skaters', '+Uukjn0l054q691gSQ3Jrsa6uLaRRRUQyK3u/N11sJc=');
+(64, 'd.herdiawan.s@gmail.com', 'yuni_skaters', '+Uukjn0l054q691gSQ3Jrsa6uLaRRRUQyK3u/N11sJc='),
+(65, 'd.herdiawan.s@gmail.com', 'budi17seven', '78tkAQ7VcCB0s01w74nmU9Tk085e7Cacyj+BmDi9SeM=');
 
 --
 -- Indexes for dumped tables
@@ -469,17 +485,17 @@ ALTER TABLE `companies`
 -- AUTO_INCREMENT for table `contacts`
 --
 ALTER TABLE `contacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 --
 -- AUTO_INCREMENT for table `subjects`
 --
 ALTER TABLE `subjects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `user_access_menu`
 --
@@ -494,7 +510,7 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT for table `user_token`
 --
 ALTER TABLE `user_token`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

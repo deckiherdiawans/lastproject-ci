@@ -2,11 +2,11 @@
 
 body {
 	position: relative;
-	font-family: 'Circular Std Book';
+	font-family: 'Arial';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 14px;
-	color: #71748d;
+	color: #000;
 	background-color: #efeff6;
 	-webkit-font-smoothing: antialiased;
 }
@@ -5190,34 +5190,25 @@ Custom Style by Decki
 	position: absolute;
 	top: 80px;
 	left: 105px;
-	right: 420px;
+	right: 430px;
 	padding: 15px 0px 15px 0px;
 	height: auto !important;
 }
 
-.tmr {
-	margin-right: 3rem !important;
+.w-55 {
+	width: 55% !important;
 }
 
-.tml {
-	margin-left: 3rem !important;
+.w-45 {
+	width: 45% !important;
 }
 
-#ticket-link {
-	font-size: 16px;
+.right-0 {
+	right: 0;
 }
 
 #ticket-link:hover {
 	text-decoration: none;
-}
-
-.detail-box {
-	position: relative;
-	background-color: #d1ecf1;
-	width: 100%;
-	top: 0;
-	margin-left: 55px;
-	padding: 25px;
 }
 
 .ticket-filter {
@@ -5225,13 +5216,19 @@ Custom Style by Decki
 	background-color: #f5f7f9;
 	border-left: 1px solid #cfd7df;
 	border-right: 1px solid #cfd7df;
-	border-bottom: 1px solid #cfd7df;
+	padding: 15px 15px 15px 15px;
+	width: 310px;
+	height: 100%;
 	top: 80px;
 	right: 120px;
-	height: 100%;
-	padding: 15px 15px 15px 15px;
-	width: 300px;
 	z-index: 1;
+}
+
+.detail-box {
+	position: relative;
+	background-color: #d1ecf1;
+	width: 100%;
+	padding: 25px;
 }
 
 .form-control-custom {
@@ -5250,11 +5247,12 @@ Custom Style by Decki
 }
 
 .btn-grey {
-	background-color: #acb6be;
+	background-color: #e9ecef;
+	border: 1px solid #ced4da;
 }
 
 .btn-grey:hover {
-	background-color: #9099a0;
+	background-color: #acb6be;
 }
 
 .th-profile-custom {
@@ -5272,6 +5270,10 @@ Custom Style by Decki
 
 .bt-style {
 	border-top: 3px solid #007bff;
+}
+
+.bl-style {
+	border-left: 3px solid #007bff;
 }
 
 .select-editable {

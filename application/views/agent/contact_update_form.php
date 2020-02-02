@@ -52,6 +52,12 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label for="is_active" class="col-sm-2 col-form-label">Status ID</label>
+                    <div class="col-sm-10 contact-field-custom">
+                        <input type="text" class="form-control" id="is_active" name="is_active" value="<?= $contact['is_active']; ?>" required>
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label for="image" class="col-sm-2 col-form-label">Profile Picture</label>
                     <div class="col-sm-3 contact-field-custom">
                         <img src="<?= base_url('images/'); ?><?= $contact['image']; ?>" class="img-thumbnail" id="image-preview">

@@ -10,32 +10,148 @@
         }
         
         public function index() {
+            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Tickets';
             $data['tickets'] = $this->Agent_model->getAllTickets();
             if ($this->input->post('searchticket')) {
                 $data['tickets'] = $this->Agent_model->searchTickets();
+            } elseif ($this->input->post('from')) {
+                $data['tickets'] = $this->Agent_model->ticketsByPeriod();
+            } elseif ($this->input->post('company_brand')) {
+                $data['tickets'] = $this->Agent_model->ticketsByCompany();
+            } elseif ($this->input->post('type')) {
+                $data['tickets'] = $this->Agent_model->ticketsByType();
+            } elseif ($this->input->post('agent_name')) {
+                $data['tickets'] = $this->Agent_model->ticketsByAssignee();
+            } elseif ($this->input->post('status')) {
+                $data['tickets'] = $this->Agent_model->ticketsByStatus();
             }
+            $data['company'] = $this->Agent_model->getAllCompanies();
+            $data['agent'] = $this->Agent_model->getAllAgents();
             $this->load->view('templates/agent_header');
             $this->load->view('templates/agent_sidebar', $data);
-            $this->load->view('templates/agent_topbar');
+            $this->load->view('templates/agent_topbar', $data);
             $this->load->view('agent/tickets', $data);
             $this->load->view('templates/agent_footer');
         }
+
+        public function ticket_details($id) {
+            $data['menu'] = $this->Agent_model->sidebar();
+            $data['title'] = 'Tickets';
+            $data['ticket'] = $this->Agent_model->getTicketById($id);
+            $this->load->view('templates/agent_header');
+            $this->load->view('templates/agent_sidebar', $data);
+            $this->load->view('templates/agent_topbar', $data);
+            $this->load->view('agent/ticket_details', $data);
+            $this->load->view('templates/agent_footer');
+        }
+
+        public function ticket_form() {
+            $data['menu'] = $this->Agent_model->sidebar();
+            $data['title'] = 'Tickets';
+            $data['contact'] = $this->Agent_model->getAllActiveContacts();
+            $data['agent'] = $this->Agent_model->getAllAgents();
+            $data['subject'] = $this->Agent_model->getAllSubjects();
+            $this->form_validation->set_rules('contact_name', 'contact_name', 'callback_contactname_check');
+            $this->form_validation->set_rules('type', 'type', 'callback_type_check');
+            $this->form_validation->set_rules('module', 'module', 'callback_module_check');
+            $this->form_validation->set_rules('priority', 'priority', 'required|trim');
+            $this->form_validation->set_rules('status', 'status', 'required|trim');
+            $this->form_validation->set_rules('subject', 'subject', 'required|trim');
+            $this->form_validation->set_rules('description', 'description', 'required|trim');
+            if ($this->form_validation->run() == false) {
+                $this->load->view('templates/agent_header');
+                $this->load->view('templates/agent_sidebar', $data);
+                $this->load->view('templates/agent_topbar', $data);
+                $this->load->view('agent/ticket_form', $data);
+                $this->load->view('templates/agent_footer');
+            } else {
+                $this->Agent_model->addSubject();
+                $this->Agent_model->createNewTicketAgent();
+                $this->session->set_flashdata('flash', 'The data saved successfully!');
+                redirect('agent/');
+            }
+        }
+
+        public function contactname_check($str) {
+            if ($str == '---') {
+                $this->form_validation->set_message('contactname_check', 'The contact_name field is required.');
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        public function type_check($str) {
+            if ($str == '---') {
+                $this->form_validation->set_message('type_check', 'The type field is required.');
+                return false;
+            } else {
+                return true;
+            }
+        }
         
+        public function module_check($str) {
+            if ($str == '---') {
+                $this->form_validation->set_message('module_check', 'The module field is required.');
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        public function ticket_update_form($id) {
+            $data['menu'] = $this->Agent_model->sidebar();
+            $data['title'] = 'Tickets';
+            $data['ticket'] = $this->Agent_model->getTicketById($id);
+            $data['contact'] = $this->Agent_model->getAllActiveContacts();
+            $data['type'] = ['On The Spot', 'Remote', 'Visit'];
+            $data['module'] = ['Distribution', 'Expo', 'Online', 'Production', 'Shop', 'Wholesale'];
+            $data['priority'] = ['Low', 'Medium', 'High', 'Urgent'];
+            $data['agent'] = $this->Agent_model->getAllAgents();
+            $data['status'] = ['Open', 'In Progress', 'Pending', 'Resolved'];
+            $data['subject'] = $this->Agent_model->getAllSubjects();
+            $this->load->view('templates/agent_header');
+            $this->load->view('templates/agent_sidebar', $data);
+            $this->load->view('templates/agent_topbar', $data);
+            $this->load->view('agent/ticket_update_form', $data);
+            $this->load->view('templates/agent_footer');
+        }
+
+        public function update_ticket() {
+            $this->Agent_model->addSubject();
+            $this->Agent_model->updateTicketAgent();
+            $this->session->set_flashdata('flash', 'The data updated successfully!');
+            redirect('agent/ticket_details/' . $this->input->post('id') . '/');
+        }
+
+        public function print_ticket($id) {
+            $data['ticket'] = $this->Agent_model->getTicketById($id);
+            $this->load->view('agent/print_ticket', $data);
+        }
+        
+        public function delete_ticket() {
+            $this->Agent_model->deleteTicket($id);
+            $this->session->set_flashdata('flash', 'The data deleted successfully!');
+            redirect('agent/');
+        }
+
         public function profile() {
+            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = '';
             $this->load->view('templates/agent_header');
             $this->load->view('templates/agent_sidebar', $data);
-            $this->load->view('templates/agent_topbar');
+            $this->load->view('templates/agent_topbar', $data);
             $this->load->view('agent/profile');
             $this->load->view('templates/agent_footer');
         }
 
         public function update_profile() {
+            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = '';
             $this->load->view('templates/agent_header');
             $this->load->view('templates/agent_sidebar', $data);
-            $this->load->view('templates/agent_topbar');
+            $this->load->view('templates/agent_topbar', $data);
             $this->load->view('agent/update_profile');
             $this->load->view('templates/agent_footer');
         }
@@ -68,10 +184,11 @@
         }
 
         public function change_profile_password() {
+            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = '';
             $this->load->view('templates/agent_header');
             $this->load->view('templates/agent_sidebar', $data);
-            $this->load->view('templates/agent_topbar');
+            $this->load->view('templates/agent_topbar', $data);
             $this->load->view('agent/change_profile_password');
             $this->load->view('templates/agent_footer');
         }
@@ -83,15 +200,18 @@
         }
 
         public function lists_menu() {
+            $data['menu'] = $this->Agent_model->sidebar();
+            $data['listsMenu'] = $this->Agent_model->listsMenu();
             $data['title'] = 'Lists';
             $this->load->view('templates/agent_header');
             $this->load->view('templates/agent_sidebar', $data);
-            $this->load->view('templates/agent_topbar');
-            $this->load->view('agent/lists_menu');
+            $this->load->view('templates/agent_topbar', $data);
+            $this->load->view('agent/lists_menu', $data);
             $this->load->view('templates/agent_footer');
         }
         
         public function contacts() {
+            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['contacts'] = $this->Agent_model->getAllContacts();
             if ($this->input->post('searchcontact')) {
@@ -99,12 +219,13 @@
             }
             $this->load->view('templates/agent_header');
             $this->load->view('templates/agent_sidebar', $data);
-            $this->load->view('templates/agent_topbar');
+            $this->load->view('templates/agent_topbar', $data);
             $this->load->view('agent/contacts', $data);
             $this->load->view('templates/agent_footer');
         }
         
         public function contact_details($id) {
+            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['contact'] = $this->Agent_model->getContactById($id);
             $this->load->view('templates/agent_header');
@@ -115,7 +236,9 @@
         }
 
         public function contact_form() {
+            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
+            $data['company'] = $this->Agent_model->getAllCompanies();
             $this->form_validation->set_rules('name', 'name', 'required|trim');
             $this->form_validation->set_rules('company_brand', 'company_brand', 'callback_company_check');
             $this->form_validation->set_rules('branch_address', 'branch_address', 'required|trim');
@@ -129,8 +252,8 @@
             if ($this->form_validation->run() == false) {
                 $this->load->view('templates/agent_header');
                 $this->load->view('templates/agent_sidebar', $data);
-                $this->load->view('templates/agent_topbar');
-                $this->load->view('agent/contact_form');
+                $this->load->view('templates/agent_topbar', $data);
+                $this->load->view('agent/contact_form', $data);
                 $this->load->view('templates/agent_footer');
             } else {
                 $this->Agent_model->addNewContact();
@@ -148,11 +271,16 @@
             }
         }
 
+        public function ajax_ticket() {
+            $this->load->view('agent/ajax_ticket');
+        }
+
         public function ajax_contact() {
             $this->load->view('agent/ajax_contact');
         }
         
         public function contact_update_form($id) {
+            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['contact'] = $this->Agent_model->getContactById($id);
             $this->load->view('templates/agent_header');
@@ -169,6 +297,7 @@
         }
 
         public function change_contact_password($id) {
+            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['contact'] = $this->Agent_model->getContactById($id);
             $this->load->view('templates/agent_header');
@@ -191,6 +320,7 @@
         }
 
         public function companies() {
+            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['companies'] = $this->Agent_model->getAllCompanies();
             if ($this->input->post('searchcompany')) {
@@ -198,12 +328,13 @@
             }
             $this->load->view('templates/agent_header');
             $this->load->view('templates/agent_sidebar', $data);
-            $this->load->view('templates/agent_topbar');
+            $this->load->view('templates/agent_topbar', $data);
             $this->load->view('agent/companies', $data);
             $this->load->view('templates/agent_footer');
         }
         
         public function company_details($id) {
+            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['company'] = $this->Agent_model->getCompanyById($id);
             $this->load->view('templates/agent_header');
@@ -214,6 +345,7 @@
         }
         
         public function company_contacts($company_brand) {
+            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['companycontacts'] = $this->Agent_model->getContactsByCompany($company_brand);
             if ($this->input->post('searchcompanycontact')) {
@@ -227,6 +359,7 @@
         }
         
         public function company_form() {
+            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $this->form_validation->set_rules('brand', 'brand', 'required|trim');
             $this->form_validation->set_rules('headquarter_address', 'headquarter_address', 'required|trim');
@@ -235,7 +368,7 @@
             if ($this->form_validation->run() == false) {
                 $this->load->view('templates/agent_header');
                 $this->load->view('templates/agent_sidebar', $data);
-                $this->load->view('templates/agent_topbar');
+                $this->load->view('templates/agent_topbar', $data);
                 $this->load->view('agent/company_form');
                 $this->load->view('templates/agent_footer');
             } else {
@@ -246,6 +379,7 @@
         }
         
         public function company_update_form($id) {
+            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['company'] = $this->Agent_model->getCompanyById($id);
             $this->load->view('templates/agent_header');
@@ -261,6 +395,12 @@
             redirect('agent/companies/');
         }
 
+        public function print_contacts($company_brand) {
+            $data['company'] = $this->Agent_model->getCompanyByBrand($company_brand);
+            $data['companycontacts'] = $this->Agent_model->getContactsByCompany($company_brand);
+            $this->load->view('agent/print_contacts', $data);
+        }
+
         public function delete_company($id) {
             $this->Agent_model->deleteCompany($id);
             $this->session->set_flashdata('flash', 'The data deleted successfully!');
@@ -271,6 +411,7 @@
             if ($this->session->userdata('role_id') > 1) {
                 redirect('auth/blocked/');
             }
+            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['agents'] = $this->Agent_model->getAllAgents();
             if ($this->input->post('searchagent')) {
@@ -278,7 +419,7 @@
             }
             $this->load->view('templates/agent_header');
             $this->load->view('templates/agent_sidebar', $data);
-            $this->load->view('templates/agent_topbar');
+            $this->load->view('templates/agent_topbar', $data);
             $this->load->view('agent/agents', $data);
             $this->load->view('templates/agent_footer');
         }
@@ -287,6 +428,7 @@
             if ($this->session->userdata('role_id') > 1) {
                 redirect('auth/blocked/');
             }
+            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['agent'] = $this->Agent_model->getAgentById($id);
             $this->load->view('templates/agent_header');
@@ -300,6 +442,7 @@
             if ($this->session->userdata('role_id') > 1) {
                 redirect('auth/blocked/');
             }
+            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $this->form_validation->set_rules('name', 'name', 'required|trim');
             $this->form_validation->set_rules('address', 'address', 'required|trim');
@@ -313,7 +456,7 @@
             if ($this->form_validation->run() == false) {
                 $this->load->view('templates/agent_header');
                 $this->load->view('templates/agent_sidebar', $data);
-                $this->load->view('templates/agent_topbar');
+                $this->load->view('templates/agent_topbar', $data);
                 $this->load->view('agent/agent_form');
                 $this->load->view('templates/agent_footer');
             } else {
@@ -327,6 +470,7 @@
             if ($this->session->userdata('role_id') > 1) {
                 redirect('auth/blocked/');
             }
+            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['agent'] = $this->Agent_model->getAgentById($id);
             $this->load->view('templates/agent_header');
@@ -346,6 +490,7 @@
             if ($this->session->userdata('role_id') > 1) {
                 redirect('auth/blocked/');
             }
+            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['agent'] = $this->Agent_model->getAgentById($id);
             $this->load->view('templates/agent_header');
@@ -361,10 +506,82 @@
             redirect('agent/agent_details/' . $this->input->post('id') . '/');
         }
 
+        public function print_agents() {
+            $data['agents'] = $this->Agent_model->getAllAgents();
+            $this->load->view('agent/print_agents', $data);
+        }
+
         public function delete_agent($id) {
             $this->Agent_model->deleteAgent($id);
             $this->session->set_flashdata('flash', 'The data deleted successfully!');
             redirect('agent/agents/');
+        }
+
+        public function reports_menu() {
+            if ($this->session->userdata('role_id') > 1) {
+                redirect('auth/blocked/');
+            }
+            $data['menu'] = $this->Agent_model->sidebar();
+            $data['title'] = 'Reports';
+            $this->load->view('templates/agent_header');
+            $this->load->view('templates/agent_sidebar', $data);
+            $this->load->view('templates/agent_topbar', $data);
+            $this->load->view('agent/reports_menu');
+            $this->load->view('templates/agent_footer');
+        }
+
+        public function report_mostcasesbysubject() {
+            if ($this->session->userdata('role_id') > 1) {
+                redirect('auth/blocked/');
+            }
+            $data['menu'] = $this->Agent_model->sidebar();
+            $data['title'] = 'Reports';
+            $data['subject'] = $this->Agent_model->reportMostCases();
+            $data['table'] = $this->Agent_model->reportMostCasesTable();
+            if ($this->input->post('from')) {
+                $data['subject'] = $this->Agent_model->mostCasesByPeriod();
+            }
+            if ($this->input->post('from')) {
+                $data['table'] = $this->Agent_model->mostCasesByPeriodTable();
+            }
+            $this->load->view('templates/agent_header');
+            $this->load->view('templates/agent_sidebar', $data);
+            $this->load->view('templates/agent_topbar', $data);
+            $this->load->view('agent/report_mostcasesbysubject', $data);
+            $this->load->view('templates/agent_footer');
+        }
+
+        public function report_agentperformancebyassignment() {
+            if ($this->session->userdata('role_id') > 1) {
+                redirect('auth/blocked/');
+            }
+            $data['menu'] = $this->Agent_model->sidebar();
+            $data['title'] = 'Reports';
+            $data['performance'] = $this->Agent_model->reportAPBA();
+            $data['table'] = $this->Agent_model->reportAPBATable();
+            $this->load->view('templates/agent_header');
+            $this->load->view('templates/agent_sidebar', $data);
+            $this->load->view('templates/agent_topbar', $data);
+            $this->load->view('agent/report_agentperformancebyassignment', $data);
+            $this->load->view('templates/agent_footer');
+        }
+
+        public function print_report1() {
+            if ($this->input->get('from')) {
+                $data['subject'] = $this->Agent_model->printReport1Period();
+                $data['table'] = $this->Agent_model->printReport1PeriodTable();
+                $this->load->view('agent/print_report1', $data);
+            } else {
+                $data['subject'] = $this->Agent_model->reportMostCases();
+                $data['table'] = $this->Agent_model->reportMostCasesTable();
+                $this->load->view('agent/print_report1', $data);
+            }
+        }
+
+        public function print_report2() {
+            $data['performance'] = $this->Agent_model->reportAPBA();
+            $data['table'] = $this->Agent_model->reportAPBATable();
+            $this->load->view('agent/print_report2', $data);
         }
     }
 ?>

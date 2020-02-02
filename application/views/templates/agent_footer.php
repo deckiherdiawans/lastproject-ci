@@ -12,5 +12,7 @@
         <!-- sweetalert2 -->
         <script src="<?= base_url('assets/'); ?>libs/js/sweetalert2.all.min.js"></script>
         <script src="<?= base_url('assets/'); ?>libs/js/myscript.js"></script>
+        <!-- ckeditor -->
+        <script src="<?= base_url('assets/'); ?>ckeditor/ckeditor.js"></script>
     </body>
 </html>

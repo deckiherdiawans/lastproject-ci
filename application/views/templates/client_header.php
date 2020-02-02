@@ -59,7 +59,12 @@
                             </div>
                             <div class="nav-item">
                                 <div class="top-search-bar">
-                                    <a href="<?= base_url('client/update_ticket/'); ?>" class="form-control button btn-success">Update</a>
+                                    <a href="<?= base_url('client/print_ticket/'); ?><?= $ticket['id']; ?>/" class="form-control button btn-info" target="_blank">Print</a>
+                                </div>
+                            </div>
+                            <div class="nav-item">
+                                <div class="top-search-bar">
+                                    <a href="<?= base_url('client/ticket_update_form/'); ?><?= $ticket['id']; ?>/" class="form-control button btn-success">Update</a>
                                 </div>
                             </div>
                         <?php endif; ?>
@@ -87,8 +92,8 @@
                                             echo base_url('client/profile/');
                                         }
                                     ?>"
-                                class="dropdown-item"><i class="fas fa-user mr-2"></i>Profile</a>
-                                <a href="<?= base_url('auth/logout/'); ?>" class="dropdown-item"><i class="fas fa-power-off mr-2"></i>Logout</a>
+                                class="dropdown-item"><i class="fas fa-user mr-2"></i><b>Profile</b></a>
+                                <a href="<?= base_url('auth/logout/'); ?>" class="dropdown-item"><i class="fas fa-power-off mr-2"></i><b>Log Out</b></a>
                             </div>
                         </div>
                     </div>

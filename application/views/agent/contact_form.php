@@ -1,8 +1,3 @@
-<?php
-    $queryCompany = "SELECT * FROM `companies` ORDER BY `brand` ASC";
-    $company = $this->db->query($queryCompany)->result_array();
-?>
-
 <div class="dashboard-wrapper">
     <div class="card">
         <div class="card-body">
@@ -14,7 +9,6 @@
                         <?= form_error('name', '<small class="text-danger pl-1">', '</small>'); ?>
                     </div>
                 </div>
-                <input type="hidden" class="form-control" id="company_id" name="company_id">
                 <div class="form-group row">
                     <label for="company_brand" class="col-sm-2 col-form-label">Company Brand</label>
                     <div class="col-sm-10 contact-field-custom">
@@ -28,6 +22,7 @@
                         <a href="<?= base_url('agent/company_form/'); ?>" class="float-right pr-1">Add New Company</a>
                     </div>
                 </div>
+                <input type="hidden" class="form-control" id="company_id" name="company_id">
                 <div class="form-group row">
                     <label for="branch_address" class="col-sm-2 col-form-label">Branch Address</label>
                     <div class="col-sm-10 contact-field-custom">

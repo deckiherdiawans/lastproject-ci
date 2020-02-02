@@ -1,15 +1,3 @@
-<?php
-    $role_id = $this->session->userdata('role_id');
-    $queryListsMenu = "SELECT *
-                       FROM `agent_lists_menu` join `user_access_menu`
-                       ON `agent_lists_menu`.`id` = `user_access_menu`.`lists_menu_id`
-                       WHERE `user_access_menu`.`role_id` = $role_id
-                       AND `agent_lists_menu`.`is_active` = 1
-                       ORDER BY `user_access_menu`.`lists_menu_id` ASC
-                      ";
-    $listsMenu = $this->db->query($queryListsMenu)->result_array();
-?>
-
 <div class="menu-wrapper">
     <div class="container-fluid">
         <div class="row">

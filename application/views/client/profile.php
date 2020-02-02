@@ -2,6 +2,8 @@
 
 <div class="dashboard-wrapper">
     <div class="bg-info text-center">
+        <div class="text-white pt-3"><h5>Your Profile</h5></div>
+        <hr class="mb-0">
         <img src="<?= base_url('images/'); ?><?= $this->session->userdata('image'); ?>" class="shadow">
         <table class="table bg-white">
             <tr>
