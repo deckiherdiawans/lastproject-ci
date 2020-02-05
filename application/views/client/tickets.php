@@ -32,10 +32,7 @@
                 </div>
                 <div class="card-body position-absolute w-45 right-0">
                     <div class="row no-gutters align-items-center">
-                        <table class="no-border">
-                            <tr>
-                                <td>Priority: <b><?= $t['priority']; ?></b></td>
-                            </tr>
+                        <table class="no-border mt-4">
                             <tr>
                                 <td>Assignee: <b><?= $t['agent_name']; ?></b></td>
                             </tr>

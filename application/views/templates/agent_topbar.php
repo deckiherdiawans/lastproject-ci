@@ -33,7 +33,7 @@
                 </div>
                 <div class="nav-item">
                     <div class="top-search-bar">
-                       <a href="<?= base_url('agent/delete_ticket/'); ?>" class="button btn-delete-custom form-control" onclick="return confirm('Are you sure?');">Delete</a>
+                       <a href="<?= base_url('agent/delete_ticket/'); ?><?= $ticket['id']; ?>/" class="button btn-delete-custom form-control" onclick="return confirm('Are you sure?');">Delete</a>
                     </div>
                 </div>
             <?php elseif ($this->uri->segment(2) === 'ticket_form') : ?>
@@ -246,11 +246,6 @@
                         <span><?= $this->session->userdata('email'); ?></span>
                     </div>
                     <a href="<?= base_url('agent/profile/'); ?>" class="dropdown-item"><i class="fas fa-user mr-2"></i><b>Profile</b></a>
-                    <?php foreach($menu as $m) : ?>
-                        <?php if ($m['title'] == 'Client Portal') : ?>
-                            <a href="<?= base_url(); ?><?= $m['url']; ?>" class="dropdown-item"><i class="<?= $m['icon']; ?>"></i><b> <?= $m['title']; ?></b></a>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
                     <a href="<?= base_url('auth/logout/'); ?>" class="dropdown-item"><i class="fas fa-power-off mr-2"></i><b>Log Out</b></a>
                 </div>
             </div>

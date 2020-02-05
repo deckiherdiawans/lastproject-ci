@@ -9,10 +9,7 @@
         <title>Revota Support System</title>
         <link rel="stylesheet" href="<?= base_url('assets/'); ?>bootstrap-441/css/bootstrap.css">
         <link rel="stylesheet" href="<?= base_url('assets/'); ?>libs/css/style-client.css">
-        <link rel="stylesheet" href="<?= base_url('assets/'); ?>vendor/fonts/circular-std/style.css">
         <link rel="stylesheet" href="<?= base_url('assets/'); ?>vendor/fonts/fontawesome/css/fontawesome-all.css">
-        <link rel="stylesheet" href="<?= base_url('assets/'); ?>vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
-        <link rel="stylesheet" href="<?= base_url('assets/'); ?>vendor/fonts/flag-icon-css/flag-icon.min.css">
     </head>
     <body>
         <div class="dashboard-main-wrapper">
@@ -21,13 +18,6 @@
                     <a href="<?= base_url('client/'); ?>"><img src="<?= base_url('images/'); ?>logorevota.jpg" id="navbar-brand"></a>
                     <a href="<?= base_url('client/'); ?>" class="navbar-brand" id="text-brand">Revota Support System</a>
                     <div class="navbar-nav ml-auto navbar-right-top">
-                        <?php if ($this->session->userdata('role_id') < 3) : ?>
-                            <div class="nav-item">
-                                <div class="top-search-bar">
-                                    <a href="<?= base_url('agent/'); ?>" class="form-control button btn-danger">Agent Portal</a>
-                                </div>
-                            </div>
-                        <?php endif; ?>
                         <?php $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); ?>
                         <?php if ($url === '/lastproject-ci/client/') : ?>
                             <div class="nav-item">
@@ -84,15 +74,7 @@
                                         <span><?= $this->session->userdata('company_brand'); ?></span>
                                     </div>
                                 <?php endif; ?>
-                                <a href=
-                                    "<?php
-                                        if ($this->session->userdata('role_id') < 3) {
-                                            echo base_url('agent/profile/');
-                                        } else {
-                                            echo base_url('client/profile/');
-                                        }
-                                    ?>"
-                                class="dropdown-item"><i class="fas fa-user mr-2"></i><b>Profile</b></a>
+                                <a href="<?= base_url('client/profile/'); ?>" class="dropdown-item"><i class="fas fa-user mr-2"></i><b>Profile</b></a>
                                 <a href="<?= base_url('auth/logout/'); ?>" class="dropdown-item"><i class="fas fa-power-off mr-2"></i><b>Log Out</b></a>
                             </div>
                         </div>

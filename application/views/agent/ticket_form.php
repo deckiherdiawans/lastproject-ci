@@ -17,11 +17,12 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="start_time" class="col-sm-2 col-form-label">Company Brand</label>
+                    <label for="company_brand" class="col-sm-2 col-form-label">Company Brand</label>
                     <div class="col-sm-10 contact-field-custom">
                         <input type="text" class="form-control" id="company_brand" name="company_brand" readonly>
                     </div>
                 </div>
+                <input type="hidden" class="form-control" id="contact_email" name="contact_email">
                 <input type="hidden" class="form-control" id="contact_image" name="contact_image">
                 <div class="form-group row">
                     <label for="type" class="col-sm-2 col-form-label">Type</label>
@@ -71,6 +72,7 @@
                                 <option><?= $ag['name']; ?></option>
                             <?php endforeach; ?>
                         </select>
+                        <?= form_error('agent_name', '<small class="text-danger pl-1">', '</small>'); ?>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -83,18 +85,6 @@
                             <option>Resolved</option>
                         </select>
                         <?= form_error('status', '<small class="text-danger pl-1">', '</small>'); ?>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="start_time" class="col-sm-2 col-form-label">Start Time</label>
-                    <div class="col-sm-10 contact-field-custom">
-                        <input type="text" class="form-control" id="start_time" name="start_time" value="<?= set_value('start_time'); ?>" placeholder="year-month-day hour:minute">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="finish_time" class="col-sm-2 col-form-label">Finish Time</label>
-                    <div class="col-sm-10 contact-field-custom">
-                        <input type="text" class="form-control" id="finish_time" name="finish_time" value="<?= set_value('finish_time'); ?>" placeholder="year-month-day hour:minute">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -144,6 +134,7 @@
                 var json = data,
                 obj = JSON.parse(json);
                 $("#company_brand").val(obj.company_brand);
+                $("#contact_email").val(obj.email);
                 $("#contact_image").val(obj.image);
             }
         })

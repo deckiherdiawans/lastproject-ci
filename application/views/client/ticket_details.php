@@ -37,34 +37,16 @@
                         <tr>
                             <th>Type</th>
                             <th>Module</th>
-                            <th>Priority</th>
                             <th>Assignee</th>
                             <th>Status</th>
-                            <th>Start Time</th>
-                            <th>Finish Time</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td><?= $ticket['type']; ?></td>
                             <td><?= $ticket['module']; ?></td>
-                            <td><?= $ticket['priority']; ?></td>
                             <td><?= $ticket['agent_name']; ?></td>
                             <td><?= $ticket['status']; ?></td>
-                            <td>
-                                <?php if ($ticket['start_time'] == null OR $ticket['start_time'] === '0000-00-00 00:00:00') : ?>
-                                    ---
-                                <?php else : ?>
-                                    <?= date("d F Y | H:i", strtotime($ticket['start_time'])); ?>
-                                <?php endif; ?>
-                            </td>
-                            <td>
-                                <?php if ($ticket['finish_time'] == null OR $ticket['finish_time'] === '0000-00-00 00:00:00') : ?>
-                                    ---
-                                <?php else : ?>
-                                    <?= date("d F Y | H:i", strtotime($ticket['finish_time'])); ?>
-                                <?php endif; ?>
-                            </td>
                         </tr>
                     </tbody>
                 </table>

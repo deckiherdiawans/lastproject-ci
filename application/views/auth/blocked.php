@@ -15,8 +15,10 @@
                 <div class="error mx-auto" data-text="403">403</div>
                 <p class="lead text-gray-800 mb-5">Access Forbidden</p>
                 <p class="text-gray-500 mb-5">Don't even think about it.</p>
-                <?php if ($this->session->userdata('role_id') < 3) : ?>
+                <?php if ($this->session->userdata('role_id') == 1) : ?>
                     <a href="<?= base_url('agent/'); ?>">&larr; Back to your site</a>
+                <?php elseif ($this->session->userdata('role_id') == 2) : ?>
+                    <a href="<?= base_url('staff/'); ?>">&larr; Back to your site</a>
                 <?php else : ?>
                     <a href="<?= base_url('client/'); ?>">&larr; Back to your site</a>
                 <?php endif; ?>

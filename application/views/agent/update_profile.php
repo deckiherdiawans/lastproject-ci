@@ -1,5 +1,3 @@
-<div class="flash-data-success" data-flashdata="<?= $this->session->flashdata('flash'); ?>"></div>
-
 <div class="dashboard-wrapper">
     <div class="card">
         <div class="card-body">

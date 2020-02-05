@@ -7,117 +7,9 @@
             $this->db->delete('user_token', ['username' => $username]);
         }
         
-        public function sidebar() {
-            $role_id = $this->session->userdata('role_id');
-            $queryMenu = "SELECT *
-                          FROM `agent_menu` JOIN `user_access_menu`
-                          ON `agent_menu`.`id` = `user_access_menu`.`menu_id`
-                          WHERE `user_access_menu`.`role_id` = $role_id
-                          AND `agent_menu`.`is_active` = 1
-                          ORDER BY `user_access_menu`.`menu_id` ASC";
-            return $this->db->query($queryMenu)->result_array();
-        }
-        
         public function getAllSubjects() {
             $this->db->order_by('subject', 'ASC');
             return $this->db->get('subjects')->result_array();  
-        }
-        
-        public function getAllTickets() {
-            $this->db->where('status', 'Open');
-            return $this->db->get('tickets')->result_array();
-        }
-
-        public function getTicketById($id) {
-            return $this->db->get_where('tickets', ['id' => $id])->row_array();
-        }
-
-        public function searchTickets() {
-            $searchticket = $this->input->post('searchticket');
-            $this->db->like('company_brand', $searchticket);
-            $this->db->or_like('contact_name', $searchticket);
-            $this->db->or_like('type', $searchticket);
-            $this->db->or_like('module', $searchticket);
-            $this->db->or_like('priority', $searchticket);
-            $this->db->or_like('subject', $searchticket);
-            $this->db->or_like('description', $searchticket);
-            $this->db->or_like('agent_name', $searchticket);
-            $this->db->or_like('status', $searchticket);
-            $this->db->or_like('note', $searchticket);
-            return $this->db->get('tickets')->result_array();
-        }
-
-        public function ticketsByPeriod() {
-            $from = $this->input->post('from');
-            $until = $this->input->post('until');
-            $this->db->where('date(date_created)', $from);
-            $this->db->where('date(date_created)', $until);
-            return $this->db->get('tickets')->result_array();
-        }
-
-        public function ticketsByCompany() {
-            $companybrand = $this->input->post('company_brand');
-            $this->db->where('company_brand', $companybrand);
-            return $this->db->get('tickets')->result_array();
-        }
-
-        public function ticketsByType() {
-            $type = $this->input->post('type');
-            $this->db->where('type', $type);
-            return $this->db->get('tickets')->result_array();
-        }
-
-        public function ticketsByAssignee() {
-            $agentname = $this->input->post('agent_name');
-            $this->db->where('agent_name', $agentname);
-            return $this->db->get('tickets')->result_array();
-        }
-
-        public function ticketsByStatus() {
-            $status = $this->input->post('status');
-            $this->db->where('status', $status);
-            return $this->db->get('tickets')->result_array();
-        }
-        
-        public function getAllTicketsForClient() {
-            $this->db->where('company_brand', $this->session->userdata('company_brand'));
-            $this->db->where('contact_name', $this->session->userdata('name'));
-            $this->db->where('status', 'Open');
-            return $this->db->get('tickets')->result_array();
-        }
-
-        public function ticketsByPeriodClient() {
-            $from = $this->input->post('from');
-            $until = $this->input->post('until');
-            $this->db->where('company_brand', $this->session->userdata('company_brand'));
-            $this->db->where('contact_name', $this->session->userdata('name'));
-            $this->db->where('date(date_created)', $from);
-            $this->db->where('date(date_created)', $until);
-            return $this->db->get('tickets')->result_array();
-        }
-
-        public function ticketsByTypeClient() {
-            $type = $this->input->post('type');
-            $this->db->where('company_brand', $this->session->userdata('company_brand'));
-            $this->db->where('contact_name', $this->session->userdata('name'));
-            $this->db->where('type', $type);
-            return $this->db->get('tickets')->result_array();
-        }
-
-        public function ticketsByAssigneeClient() {
-            $agentname = $this->input->post('agent_name');
-            $this->db->where('company_brand', $this->session->userdata('company_brand'));
-            $this->db->where('contact_name', $this->session->userdata('name'));
-            $this->db->where('agent_name', $agentname);
-            return $this->db->get('tickets')->result_array();
-        }
-
-        public function ticketsByStatusClient() {
-            $status = $this->input->post('status');
-            $this->db->where('company_brand', $this->session->userdata('company_brand'));
-            $this->db->where('contact_name', $this->session->userdata('name'));
-            $this->db->where('status', $status);
-            return $this->db->get('tickets')->result_array();
         }
 
         public function addSubject() {
@@ -129,30 +21,317 @@
                 $this->db->insert('subjects', $data);
             }
         }
+        
+        public function getAllTickets() {
+            $this->db->where('status', 'Open');
+            return $this->db->get('tickets')->result_array();
+        }
+
+        public function getAllTicketsStaff() {
+            $this->db->where('agent_name', $this->session->userdata('name'));
+            $this->db->where('status', 'Open');
+            return $this->db->get('tickets')->result_array();
+        }
+
+        public function getAllTicketsForClient() {
+            $this->db->where('contact_name', $this->session->userdata('name'));
+            $this->db->where('company_brand', $this->session->userdata('company_brand'));
+            $this->db->where('status', 'Open');
+            return $this->db->get('tickets')->result_array();
+        }
+
+        public function getTicketById($id) {
+            return $this->db->get_where('tickets', ['id' => $id])->row_array();
+        }
+
+        public function searchTickets() {
+            $searchticket = $this->input->post('searchticket');
+            $this->db->like('contact_name', $searchticket);
+            $this->db->or_like('company_brand', $searchticket);
+            $this->db->or_like('type', $searchticket);
+            $this->db->or_like('module', $searchticket);
+            $this->db->or_like('subject', $searchticket);
+            $this->db->or_like('description', $searchticket);
+            $this->db->or_like('priority', $searchticket);
+            $this->db->or_like('agent_name', $searchticket);
+            $this->db->or_like('status', $searchticket);
+            $this->db->or_like('note', $searchticket);
+            return $this->db->get('tickets')->result_array();
+        }
+
+        public function searchTicketsStaff() {
+            $searchticket = $this->input->post('searchticket');
+            $this->db->like('contact_name', $searchticket);
+            $this->db->or_like('company_brand', $searchticket);
+            $this->db->or_like('type', $searchticket);
+            $this->db->or_like('module', $searchticket);
+            $this->db->or_like('subject', $searchticket);
+            $this->db->or_like('description', $searchticket);
+            $this->db->or_like('priority', $searchticket);
+            $this->db->or_like('status', $searchticket);
+            $this->db->or_like('note', $searchticket);
+            $this->db->where('agent_name', $this->session->userdata('name'));
+            return $this->db->get('tickets')->result_array();
+        }
+
+        public function ticketsByPeriod() {
+            $from = $this->input->post('from');
+            $until = $this->input->post('until');
+            $this->db->where('date(date_created) >=', $from);
+            $this->db->where('date(date_created) <=', $until);
+            return $this->db->get('tickets')->result_array();
+        }
+
+        public function ticketsByPeriodStaff() {
+            $from = $this->input->post('from');
+            $until = $this->input->post('until');
+            $this->db->where('agent_name', $this->session->userdata('name'));
+            $this->db->where('date(date_created) >=', $from);
+            $this->db->where('date(date_created) <=', $until);
+            return $this->db->get('tickets')->result_array();
+        }
+
+        public function ticketsByPeriodClient() {
+            $from = $this->input->post('from');
+            $until = $this->input->post('until');
+            $this->db->where('contact_name', $this->session->userdata('name'));
+            $this->db->where('company_brand', $this->session->userdata('company_brand'));
+            $this->db->where('date(date_created) >=', $from);
+            $this->db->where('date(date_created) <=', $until);
+            return $this->db->get('tickets')->result_array();
+        }
+
+        public function ticketsByCompany() {
+            $companybrand = $this->input->post('company_brand');
+            $this->db->where('company_brand', $companybrand);
+            return $this->db->get('tickets')->result_array();
+        }
+
+        public function ticketsByCompanyStaff() {
+            $companybrand = $this->input->post('company_brand');
+            $this->db->where('company_brand', $companybrand);
+            $this->db->where('agent_name', $this->session->userdata('name'));
+            return $this->db->get('tickets')->result_array();
+        }
+
+        public function ticketsByType() {
+            $type = $this->input->post('type');
+            $this->db->where('type', $type);
+            return $this->db->get('tickets')->result_array();
+        }
+
+        public function ticketsByTypeStaff() {
+            $type = $this->input->post('type');
+            $this->db->where('type', $type);
+            $this->db->where('agent_name', $this->session->userdata('name'));
+            return $this->db->get('tickets')->result_array();
+        }
+
+        public function ticketsByTypeClient() {
+            $type = $this->input->post('type');
+            $this->db->where('contact_name', $this->session->userdata('name'));
+            $this->db->where('company_brand', $this->session->userdata('company_brand'));
+            $this->db->where('type', $type);
+            return $this->db->get('tickets')->result_array();
+        }
+
+        public function ticketsByAssignee() {
+            $agentname = $this->input->post('agent_name');
+            $this->db->where('agent_name', $agentname);
+            return $this->db->get('tickets')->result_array();
+        }
+
+        public function ticketsByAssigneeClient() {
+            $agentname = $this->input->post('agent_name');
+            $this->db->where('contact_name', $this->session->userdata('name'));
+            $this->db->where('company_brand', $this->session->userdata('company_brand'));
+            $this->db->where('agent_name', $agentname);
+            return $this->db->get('tickets')->result_array();
+        }
+
+        public function ticketsByStatus() {
+            $status = $this->input->post('status');
+            $this->db->where('status', $status);
+            return $this->db->get('tickets')->result_array();
+        }
+
+        public function ticketsByStatusStaff() {
+            $status = $this->input->post('status');
+            $this->db->where('agent_name', $this->session->userdata('name'));
+            $this->db->where('status', $status);
+            return $this->db->get('tickets')->result_array();
+        }
+
+        public function ticketsByStatusClient() {
+            $status = $this->input->post('status');
+            $this->db->where('contact_name', $this->session->userdata('name'));
+            $this->db->where('company_brand', $this->session->userdata('company_brand'));
+            $this->db->where('status', $status);
+            return $this->db->get('tickets')->result_array();
+        }
 
         public function createNewTicketAgent() {
             date_default_timezone_set('Asia/Jakarta');
+            if ($this->input->post('status') == 'In Progress') {
+                $start_time = date('Y-m-d H:i:s');
+            }
+            if ($this->input->post('status') == 'Resolved') {
+                $finish_time = date('Y-m-d H:i:s');
+            }
             $data = [
                 'date_created' => date('Y-m-d H:i:s'),
                 'created_by' => $this->input->post('created_by'),
-                'company_brand' => $this->input->post('company_brand'),
                 'contact_name' => $this->input->post('contact_name'),
+                'company_brand' => $this->input->post('company_brand'),
+                'contact_email' => $this->input->post('contact_email'),
                 'contact_image' => $this->input->post('contact_image'),
                 'type' => $this->input->post('type'),
                 'module' => $this->input->post('module'),
-                'priority' => $this->input->post('priority'),
                 'subject' => $this->input->post('subject'),
                 'description' => $this->input->post('description'),
+                'priority' => $this->input->post('priority'),
                 'agent_name' => $this->input->post('agent_name'),
-                'start_time' => $this->input->post('start_time'),
-                'finish_time' => $this->input->post('finish_time'),
+                'start_time' => $start_time,
+                'finish_time' => $finish_time,
                 'status' => $this->input->post('status'),
                 'note' => $this->input->post('note')
             ];
             $this->db->insert('tickets', $data);
+            if ($this->input->post('agent_name') == 'Edu Ramdhana Putra') {
+                $this->sendEmailNotificationAgent1();
+            } elseif ($this->input->post('agent_name') == 'Tri Untung Sutriyanto') {
+                $this->sendEmailNotificationAgent2();
+            }
+            if ($this->input->post('status') == 'Resolved') {
+                $this->sendEmailNotificationClient();
+            }
+        }
+
+        public function createNewTicketStaff() {
+            date_default_timezone_set('Asia/Jakarta');
+            if ($this->input->post('status') == 'In Progress') {
+                $start_time = date('Y-m-d H:i:s');
+            }
+            if ($this->input->post('status') == 'Resolved') {
+                $finish_time = date('Y-m-d H:i:s');
+            }
+            $data = [
+                'date_created' => date('Y-m-d H:i:s'),
+                'created_by' => $this->input->post('created_by'),
+                'contact_name' => $this->input->post('contact_name'),
+                'company_brand' => $this->input->post('company_brand'),
+                'contact_email' => $this->input->post('contact_email'),
+                'contact_image' => $this->input->post('contact_image'),
+                'type' => $this->input->post('type'),
+                'module' => $this->input->post('module'),
+                'subject' => $this->input->post('subject'),
+                'description' => $this->input->post('description'),
+                'priority' => $this->input->post('priority'),
+                'agent_name' => $this->input->post('agent_name'),
+                'start_time' => $start_time,
+                'finish_time' => $finish_time,
+                'status' => $this->input->post('status'),
+                'note' => $this->input->post('note')
+            ];
+            $this->db->insert('tickets', $data);
+            if ($this->input->post('status') == 'Resolved') {
+                $this->sendEmailNotificationClient();
+            }
+        }
+
+        public function createNewTicket() {
+            date_default_timezone_set('Asia/Jakarta');
+            $data = [
+                'date_created' => date('Y-m-d H:i:s'),
+                'created_by' => $this->input->post('created_by'),
+                'contact_name' => $this->input->post('contact_name'),
+                'company_brand' => $this->input->post('company_brand'),
+                'contact_email' => $this->input->post('contact_email'),
+                'contact_image' => $this->input->post('contact_image'),
+                'type' => $this->input->post('type'),
+                'module' => $this->input->post('module'),
+                'subject' => $this->input->post('subject'),
+                'description' => $this->input->post('description'),
+                'priority' => $this->input->post('priority'),
+                'agent_name' => $this->input->post('agent_name'),
+                'status' => $this->input->post('status')
+            ];
+            $this->db->insert('tickets', $data);
             $this->sendEmailNotificationAgent();
         }
-        
+
+        public function updateTicketAgent() {
+            date_default_timezone_set('Asia/Jakarta');
+            $this->db->set('contact_name', $this->input->post('contact_name', true));
+            $this->db->set('company_brand', $this->input->post('company_brand', true));
+            $this->db->set('contact_email', $this->input->post('contact_email', true));
+            $this->db->set('contact_image', $this->input->post('contact_image', true));
+            $this->db->set('type', $this->input->post('type', true));
+            $this->db->set('module', $this->input->post('module', true));
+            $this->db->set('subject', $this->input->post('subject', true));
+            $this->db->set('description', $this->input->post('description', true));
+            $this->db->set('priority', $this->input->post('priority', true));
+            $this->db->set('agent_name', $this->input->post('agent_name', true));
+            if ($this->input->post('status') == 'In Progress') {
+                $this->db->set('start_time', date('Y-m-d H:i:s'));
+            }
+            if ($this->input->post('status') == 'Resolved') {
+                $this->db->set('finish_time', date('Y-m-d H:i:s'));
+            }
+            $this->db->set('status', $this->input->post('status', true));
+            $this->db->set('note', $this->input->post('note', true));
+            $this->db->where('id', $this->input->post('id'));
+            $this->db->update('tickets');
+            if ($this->input->post('agent_name') == 'Edu Ramdhana Putra') {
+                $this->sendEmailNotificationAgent1();
+            } elseif ($this->input->post('agent_name') == 'Tri Untung Sutriyanto') {
+                $this->sendEmailNotificationAgent2();
+            }
+            if ($this->input->post('status') == 'Resolved') {
+                $this->sendEmailNotificationClient();
+            }
+        }
+
+        public function updateTicketStaff() {
+            date_default_timezone_set('Asia/Jakarta');
+            $this->db->set('contact_name', $this->input->post('contact_name', true));
+            $this->db->set('company_brand', $this->input->post('company_brand', true));
+            $this->db->set('contact_email', $this->input->post('contact_email', true));
+            $this->db->set('contact_image', $this->input->post('contact_image', true));
+            $this->db->set('type', $this->input->post('type', true));
+            $this->db->set('module', $this->input->post('module', true));
+            $this->db->set('subject', $this->input->post('subject', true));
+            $this->db->set('description', $this->input->post('description', true));
+            $this->db->set('priority', $this->input->post('priority', true));
+            $this->db->set('agent_name', $this->input->post('agent_name', true));
+            if ($this->input->post('status') == 'In Progress') {
+                $this->db->set('start_time', date('Y-m-d H:i:s'));
+            }
+            if ($this->input->post('status') == 'Resolved') {
+                $this->db->set('finish_time', date('Y-m-d H:i:s'));
+            }
+            $this->db->set('status', $this->input->post('status', true));
+            $this->db->set('note', $this->input->post('note', true));
+            $this->db->where('id', $this->input->post('id'));
+            $this->db->update('tickets');
+            if ($this->input->post('status') == 'Resolved') {
+                $this->sendEmailNotificationClient();
+            }
+        }
+
+        public function updateTicket() {
+            $this->db->set('type', $this->input->post('type', true));
+            $this->db->set('module', $this->input->post('module', true));
+            $this->db->set('subject', $this->input->post('subject', true));
+            $this->db->set('description', $this->input->post('description', true));
+            $this->db->where('id', $this->input->post('id'));
+            $this->db->update('tickets');
+        }
+
+        public function deleteTicket($id) {
+            $this->db->delete('tickets', ['id' => $id]);
+        }
+
         private function sendEmailNotificationAgent() {
             $config = [
                 'protocol' =>'smtp',
@@ -167,7 +346,7 @@
             
             $this->email->initialize($config);
             $this->email->from('d.herdiawan.s@gmail.com', 'PT. Ava Revota');
-            $this->email->to('herdiawand@yahoo.co.id, eduramdhanaputra@yahoo.com, triuntungsutriyanto@yahoo.com');
+            $this->email->to('herdiawand@yahoo.co.id');
             $this->email->subject('Notifikasi Permintaan Bantuan');
             $this->email->message('
                 Ada seorang pelanggan telah membuat permintaan bantuan baru! Ayo dicek!<br>
@@ -184,46 +363,7 @@
             }
         }
 
-        public function updateTicketAgent() {
-            $this->db->set('created_by', $this->input->post('created_by', true));
-            $this->db->set('company_brand', $this->input->post('company_brand', true));
-            $this->db->set('contact_name', $this->input->post('contact_name', true));
-            $this->db->set('contact_image', $this->input->post('contact_image', true));
-            $this->db->set('type', $this->input->post('type', true));
-            $this->db->set('module', $this->input->post('module', true));
-            $this->db->set('priority', $this->input->post('priority', true));
-            $this->db->set('subject', $this->input->post('subject', true));
-            $this->db->set('description', $this->input->post('description', true));
-            $this->db->set('agent_name', $this->input->post('agent_name', true));
-            $this->db->set('start_time', $this->input->post('start_time', true));
-            $this->db->set('finish_time', $this->input->post('finish_time', true));
-            $this->db->set('status', $this->input->post('status', true));
-            $this->db->set('note', $this->input->post('note', true));
-            $this->db->where('id', $this->input->post('id'));
-            $this->db->update('tickets');
-        }
-
-        public function createNewTicket() {
-            date_default_timezone_set('Asia/Jakarta');
-            $data = [
-                'date_created' => date('Y-m-d H:i:s'),
-                'created_by' => $this->input->post('created_by'),
-                'company_brand' => $this->input->post('company_brand'),
-                'contact_name' => $this->input->post('contact_name'),
-                'contact_image' => $this->input->post('contact_image'),
-                'type' => $this->input->post('type'),
-                'module' => $this->input->post('module'),
-                'subject' => $this->input->post('subject'),
-                'description' => $this->input->post('description'),
-                'priority' => $this->input->post('priority'),
-                'agent_name' => $this->input->post('agent_name'),
-                'status' => $this->input->post('status')
-            ];
-            $this->db->insert('tickets', $data);
-            $this->sendEmailNotification();
-        }
-        
-        private function sendEmailNotification() {
+        private function sendEmailNotificationAgent1() {
             $config = [
                 'protocol' =>'smtp',
                 'smtp_host' => 'ssl://smtp.googlemail.com',
@@ -237,7 +377,7 @@
             
             $this->email->initialize($config);
             $this->email->from('d.herdiawan.s@gmail.com', 'PT. Ava Revota');
-            $this->email->to('herdiawand@yahoo.co.id, eduramdhanaputra@yahoo.com, triuntungsutriyanto@yahoo.com');
+            $this->email->to('eduramdhanaputra@yahoo.com');
             $this->email->subject('Notifikasi Permintaan Bantuan');
             $this->email->message('
                 Ada seorang pelanggan telah membuat permintaan bantuan baru! Ayo dicek!<br>
@@ -254,29 +394,67 @@
             }
         }
 
-        public function updateTicket() {
-            $this->db->set('type', $this->input->post('type', true));
-            $this->db->set('module', $this->input->post('module', true));
-            $this->db->set('priority', $this->input->post('priority', true));
-            $this->db->set('subject', $this->input->post('subject', true));
-            $this->db->set('description', $this->input->post('description', true));
-            $this->db->where('id', $this->input->post('id'));
-            $this->db->update('tickets');
+        private function sendEmailNotificationAgent2() {
+            $config = [
+                'protocol' =>'smtp',
+                'smtp_host' => 'ssl://smtp.googlemail.com',
+                'smtp_user' => 'd.herdiawan.s@gmail.com',
+                'smtp_pass' => 'h3r@w4t!',
+                'smtp_port' => 465,
+                'mailtype' => 'html',
+                'charset' => 'utf-8',
+                'newline' => "\r\n"
+            ];
+            
+            $this->email->initialize($config);
+            $this->email->from('d.herdiawan.s@gmail.com', 'PT. Ava Revota');
+            $this->email->to('triuntungsutriyanto@yahoo.com');
+            $this->email->subject('Notifikasi Permintaan Bantuan');
+            $this->email->message('
+                Ada seorang pelanggan telah membuat permintaan bantuan baru! Ayo dicek!<br>
+                <a href="'. base_url() .'">
+                Buka portal
+                </a>
+            ');
+            
+            if ($this->email->send()) {
+                return true;
+            } else {
+                echo $this->email->print_debugger();
+                die;
+            }
         }
 
-        public function deleteTicket($id) {
-            $this->db->delete('tickets', ['id' => $id]);
-        }
-
-        public function listsMenu() {
-            $role_id = $this->session->userdata('role_id');
-            $queryListsMenu = "SELECT *
-                               FROM `agent_lists_menu` join `user_access_menu`
-                               ON `agent_lists_menu`.`id` = `user_access_menu`.`lists_menu_id`
-                               WHERE `user_access_menu`.`role_id` = $role_id
-                               AND `agent_lists_menu`.`is_active` = 1
-                               ORDER BY `user_access_menu`.`lists_menu_id` ASC";
-            return $this->db->query($queryListsMenu)->result_array();
+        private function sendEmailNotificationClient() {
+            $config = [
+                'protocol' =>'smtp',
+                'smtp_host' => 'ssl://smtp.googlemail.com',
+                'smtp_user' => 'd.herdiawan.s@gmail.com',
+                'smtp_pass' => 'h3r@w4t!',
+                'smtp_port' => 465,
+                'mailtype' => 'html',
+                'charset' => 'utf-8',
+                'newline' => "\r\n"
+            ];
+            
+            $this->email->initialize($config);
+            $this->email->from('d.herdiawan.s@gmail.com', 'PT. Ava Revota');
+            $this->email->to($this->input->post('contact_email'));
+            $this->email->subject('Notifikasi Permintaan Bantuan');
+            $this->email->message('
+                Permintaan bantuan anda sudah selesai dikerjakan, silakan periksa kembali.<br>
+                Terima kasih telah menggunakan Revota.<br>
+                <a href="'. base_url() .'">
+                Buka portal
+                </a>
+            ');
+            
+            if ($this->email->send()) {
+                return true;
+            } else {
+                echo $this->email->print_debugger();
+                die;
+            }
         }
         
         public function searchContact() {
@@ -807,7 +985,7 @@
                             SUM(CASE WHEN DATEDIFF(CURDATE(), b.date_created) 
                                 BETWEEN 15 AND 21 THEN 1 ELSE 0 END) AS 'w3'
                            FROM agents a INNER JOIN tickets b ON a.name = b.agent_name
-                           GROUP BY b.agent_name;";
+                           WHERE b.status = 'Resolved' GROUP BY b.agent_name;";
             return $this->db->query($queryAgent)->result_array();
         }
 
@@ -820,7 +998,7 @@
                             SUM(CASE WHEN DATEDIFF(CURDATE(), b.date_created) 
                                 BETWEEN 15 AND 21 THEN 1 ELSE 0 END) AS 'w3'
                            FROM agents a INNER JOIN tickets b ON a.name = b.agent_name
-                           GROUP BY b.agent_name;";
+                           WHERE b.status = 'Resolved' GROUP BY b.agent_name;";
             return $this->db->query($queryAgent)->result_array();
         }
     }

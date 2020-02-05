@@ -7,9 +7,11 @@
                 </div>
                 <hr>
                 <input type="hidden" class="form-control" id="created_by" name="created_by" value="<?= $this->session->userdata('name'); ?>">
-                <input type="hidden" class="form-control" id="company_brand" name="company_brand" value="<?= $this->session->userdata('company_brand'); ?>">
                 <input type="hidden" class="form-control" id="contact_name" name="contact_name" value="<?= $this->session->userdata('name'); ?>">
+                <input type="hidden" class="form-control" id="company_brand" name="company_brand" value="<?= $this->session->userdata('company_brand'); ?>">
+                <input type="hidden" class="form-control" id="contact_email" name="contact_email" value="<?= $this->session->userdata('email'); ?>">
                 <input type="hidden" class="form-control" id="contact_image" name="contact_image" value="<?= $this->session->userdata('image'); ?>">
+                <input type="hidden" class="form-control" id="priority" name="priority" value="---">
                 <input type="hidden" class="form-control" id="agent_name" name="agent_name" value="---">
                 <input type="hidden" class="form-control" id="status" name="status" value="Open">
                 <div class="form-group row">
@@ -37,18 +39,6 @@
                             <option>Wholesale</option>
                         </select>
                         <?= form_error('module', '<small class="text-danger pl-1">', '</small>'); ?>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="priority" class="col-sm-2 col-form-label">Priority</label>
-                    <div class="col-sm-10 contact-field-custom">
-                        <select class="form-control" id="priority" name="priority">
-                            <option>Low</option>
-                            <option>Medium</option>
-                            <option>High</option>
-                            <option>Urgent</option>
-                        </select>
-                        <?= form_error('priority', '<small class="text-danger pl-1">', '</small>'); ?>
                     </div>
                 </div>
                 <div class="form-group row">

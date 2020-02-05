@@ -5,6 +5,7 @@
         <!-- Optional JavaScript -->
         <!-- jquery 3.3.1 -->
         <script src="<?= base_url('assets/'); ?>vendor/jquery/jquery-3.3.1.min.js"></script>
+        <script src="<?= base_url('assets/'); ?>vendor/jquery-ui/jquery-ui.min.js"></script>
         <!-- bootstap bundle js -->
         <script src="<?= base_url('assets/'); ?>bootstrap-441/js/bootstrap.bundle.js"></script>
         <!-- main js -->

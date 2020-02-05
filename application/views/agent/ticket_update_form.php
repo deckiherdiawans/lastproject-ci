@@ -19,12 +19,12 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="note" class="col-sm-2 col-form-label">Company Brand</label>
+                    <label for="company_brand" class="col-sm-2 col-form-label">Company Brand</label>
                     <div class="col-sm-10 contact-field-custom">
                         <input type="text" class="form-control" id="company_brand" name="company_brand" value="<?= $ticket['company_brand']; ?>" readonly>
                     </div>
                 </div>
-                <input type="hidden" class="form-control" id="created_by" name="created_by" value="<?= $ticket['created_by']; ?>">
+                <input type="hidden" class="form-control" id="contact_email" name="contact_email" value="<?= $ticket['contact_email']; ?>">
                 <input type="hidden" class="form-control" id="contact_image" name="contact_image" value="<?= $ticket['contact_image']; ?>">
                 <div class="form-group row">
                     <label for="type" class="col-sm-2 col-form-label">Type</label>
@@ -98,30 +98,6 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="start_time" class="col-sm-2 col-form-label">Start Time</label>
-                    <div class="col-sm-10 contact-field-custom">
-                        <input type="text" class="form-control" id="start_time" name="start_time"
-                            <?php if ($ticket['start_time'] == null OR $ticket['start_time'] === '0000-00-00 00:00:00') : ?>
-                                placeholder="year-month-day hour:minute"
-                            <?php else : ?>
-                                value="<?= $ticket['start_time']; ?>"
-                            <?php endif; ?>
-                        >
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="finish_time" class="col-sm-2 col-form-label">Finish Time</label>
-                    <div class="col-sm-10 contact-field-custom">
-                        <input type="text" class="form-control" id="finish_time" name="finish_time"
-                            <?php if ($ticket['finish_time'] == null OR $ticket['finish_time'] === '0000-00-00 00:00:00') : ?>
-                                placeholder="year-month-day hour:minute"
-                            <?php else : ?>
-                                value="<?= $ticket['finish_time']; ?>"
-                            <?php endif; ?>
-                        >
-                    </div>
-                </div>
-                <div class="form-group row">
                     <label for="note" class="col-sm-2 col-form-label">Note</label>
                     <div class="col-sm-10 contact-field-custom">
                         <input type="text" class="form-control" id="note" name="note" value="<?= $ticket['note']; ?>">
@@ -169,6 +145,7 @@
                 var json = data,
                 obj = JSON.parse(json);
                 $("#company_brand").val(obj.company_brand);
+                $("#contact_email").val(obj.email);
                 $("#contact_image").val(obj.image);
             }
         })

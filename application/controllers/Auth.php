@@ -10,8 +10,10 @@
 
         public function index() {
             if ($this->session->userdata('username')) {
-                if ($this->session->userdata('role_id') < 3) {
+                if ($this->session->userdata('role_id') == 1) {
                     redirect('agent/');
+                } elseif ($this->session->userdata('role_id') == 2) {
+                    redirect('staff/');
                 } else {
                     redirect('client/');
                 }
@@ -50,7 +52,11 @@
                             'role_id' => $agent['role_id']
                         ];
                         $this->session->set_userdata($data);
-                        redirect('agent/');
+                        if ($this->session->userdata('role_id') == 1) {
+                            redirect('agent/');
+                        } elseif ($this->session->userdata('role_id') == 2) {
+                            redirect('staff/');
+                        }
                     } else {
                         $this->session->set_flashdata('flash', 'Wrong password!');
                         redirect('auth/');

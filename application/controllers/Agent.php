@@ -10,7 +10,6 @@
         }
         
         public function index() {
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Tickets';
             $data['tickets'] = $this->Agent_model->getAllTickets();
             if ($this->input->post('searchticket')) {
@@ -36,7 +35,6 @@
         }
 
         public function ticket_details($id) {
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Tickets';
             $data['ticket'] = $this->Agent_model->getTicketById($id);
             $this->load->view('templates/agent_header');
@@ -47,7 +45,6 @@
         }
 
         public function ticket_form() {
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Tickets';
             $data['contact'] = $this->Agent_model->getAllActiveContacts();
             $data['agent'] = $this->Agent_model->getAllAgents();
@@ -56,6 +53,7 @@
             $this->form_validation->set_rules('type', 'type', 'callback_type_check');
             $this->form_validation->set_rules('module', 'module', 'callback_module_check');
             $this->form_validation->set_rules('priority', 'priority', 'required|trim');
+            $this->form_validation->set_rules('agent_name', 'agent_name', 'callback_agentname_check');
             $this->form_validation->set_rules('status', 'status', 'required|trim');
             $this->form_validation->set_rules('subject', 'subject', 'required|trim');
             $this->form_validation->set_rules('description', 'description', 'required|trim');
@@ -100,8 +98,16 @@
             }
         }
 
+        public function agentname_check($str) {
+            if ($str == '---') {
+                $this->form_validation->set_message('agentname_check', 'The agent_name field is required.');
+                return false;
+            } else {
+                return true;
+            }
+        }
+
         public function ticket_update_form($id) {
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Tickets';
             $data['ticket'] = $this->Agent_model->getTicketById($id);
             $data['contact'] = $this->Agent_model->getAllActiveContacts();
@@ -130,14 +136,13 @@
             $this->load->view('agent/print_ticket', $data);
         }
         
-        public function delete_ticket() {
+        public function delete_ticket($id) {
             $this->Agent_model->deleteTicket($id);
             $this->session->set_flashdata('flash', 'The data deleted successfully!');
             redirect('agent/');
         }
 
         public function profile() {
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = '';
             $this->load->view('templates/agent_header');
             $this->load->view('templates/agent_sidebar', $data);
@@ -147,7 +152,6 @@
         }
 
         public function update_profile() {
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = '';
             $this->load->view('templates/agent_header');
             $this->load->view('templates/agent_sidebar', $data);
@@ -184,7 +188,6 @@
         }
 
         public function change_profile_password() {
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = '';
             $this->load->view('templates/agent_header');
             $this->load->view('templates/agent_sidebar', $data);
@@ -200,8 +203,6 @@
         }
 
         public function lists_menu() {
-            $data['menu'] = $this->Agent_model->sidebar();
-            $data['listsMenu'] = $this->Agent_model->listsMenu();
             $data['title'] = 'Lists';
             $this->load->view('templates/agent_header');
             $this->load->view('templates/agent_sidebar', $data);
@@ -211,7 +212,6 @@
         }
         
         public function contacts() {
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['contacts'] = $this->Agent_model->getAllContacts();
             if ($this->input->post('searchcontact')) {
@@ -225,7 +225,6 @@
         }
         
         public function contact_details($id) {
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['contact'] = $this->Agent_model->getContactById($id);
             $this->load->view('templates/agent_header');
@@ -236,7 +235,6 @@
         }
 
         public function contact_form() {
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['company'] = $this->Agent_model->getAllCompanies();
             $this->form_validation->set_rules('name', 'name', 'required|trim');
@@ -280,7 +278,6 @@
         }
         
         public function contact_update_form($id) {
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['contact'] = $this->Agent_model->getContactById($id);
             $this->load->view('templates/agent_header');
@@ -297,7 +294,6 @@
         }
 
         public function change_contact_password($id) {
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['contact'] = $this->Agent_model->getContactById($id);
             $this->load->view('templates/agent_header');
@@ -320,7 +316,6 @@
         }
 
         public function companies() {
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['companies'] = $this->Agent_model->getAllCompanies();
             if ($this->input->post('searchcompany')) {
@@ -334,7 +329,6 @@
         }
         
         public function company_details($id) {
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['company'] = $this->Agent_model->getCompanyById($id);
             $this->load->view('templates/agent_header');
@@ -345,7 +339,6 @@
         }
         
         public function company_contacts($company_brand) {
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['companycontacts'] = $this->Agent_model->getContactsByCompany($company_brand);
             if ($this->input->post('searchcompanycontact')) {
@@ -359,7 +352,6 @@
         }
         
         public function company_form() {
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $this->form_validation->set_rules('brand', 'brand', 'required|trim');
             $this->form_validation->set_rules('headquarter_address', 'headquarter_address', 'required|trim');
@@ -379,7 +371,6 @@
         }
         
         public function company_update_form($id) {
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['company'] = $this->Agent_model->getCompanyById($id);
             $this->load->view('templates/agent_header');
@@ -411,7 +402,6 @@
             if ($this->session->userdata('role_id') > 1) {
                 redirect('auth/blocked/');
             }
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['agents'] = $this->Agent_model->getAllAgents();
             if ($this->input->post('searchagent')) {
@@ -428,7 +418,6 @@
             if ($this->session->userdata('role_id') > 1) {
                 redirect('auth/blocked/');
             }
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['agent'] = $this->Agent_model->getAgentById($id);
             $this->load->view('templates/agent_header');
@@ -442,7 +431,6 @@
             if ($this->session->userdata('role_id') > 1) {
                 redirect('auth/blocked/');
             }
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $this->form_validation->set_rules('name', 'name', 'required|trim');
             $this->form_validation->set_rules('address', 'address', 'required|trim');
@@ -470,7 +458,6 @@
             if ($this->session->userdata('role_id') > 1) {
                 redirect('auth/blocked/');
             }
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['agent'] = $this->Agent_model->getAgentById($id);
             $this->load->view('templates/agent_header');
@@ -490,7 +477,6 @@
             if ($this->session->userdata('role_id') > 1) {
                 redirect('auth/blocked/');
             }
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Lists';
             $data['agent'] = $this->Agent_model->getAgentById($id);
             $this->load->view('templates/agent_header');
@@ -521,7 +507,6 @@
             if ($this->session->userdata('role_id') > 1) {
                 redirect('auth/blocked/');
             }
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Reports';
             $this->load->view('templates/agent_header');
             $this->load->view('templates/agent_sidebar', $data);
@@ -534,7 +519,6 @@
             if ($this->session->userdata('role_id') > 1) {
                 redirect('auth/blocked/');
             }
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Reports';
             $data['subject'] = $this->Agent_model->reportMostCases();
             $data['table'] = $this->Agent_model->reportMostCasesTable();
@@ -555,7 +539,6 @@
             if ($this->session->userdata('role_id') > 1) {
                 redirect('auth/blocked/');
             }
-            $data['menu'] = $this->Agent_model->sidebar();
             $data['title'] = 'Reports';
             $data['performance'] = $this->Agent_model->reportAPBA();
             $data['table'] = $this->Agent_model->reportAPBATable();

@@ -36,20 +36,6 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="priority" class="col-sm-2 col-form-label">Priority</label>
-                    <div class="col-sm-10 contact-field-custom">
-                        <select class="form-control" id="priority" name="priority" required>
-                            <?php foreach ($priority as $pri) : ?>
-                                <?php if ($pri == $ticket['priority']) : ?>
-                                    <option selected><?= $pri; ?></option>
-                                <?php else : ?>
-                                    <option><?= $pri; ?></option>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row">
                     <label for="subject" class="col-sm-2 col-form-label">Subject</label>
                     <div class="col-sm-10 contact-field-custom select-editable">
                         <select class="form-control-custom" onchange="this.nextElementSibling.value=this.value">
